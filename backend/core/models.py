@@ -37,7 +37,7 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     USERNAME_FIELD = 'email'
 
-class Reminder(models.class (models.Model):
+class Reminder(models.Model):
     """Reminders to be used for users"""
     name = models.CharField(max_length=255)
     user = models.ForeignKey(
