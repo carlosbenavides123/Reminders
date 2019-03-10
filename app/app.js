@@ -1,25 +1,18 @@
 import Vue from "nativescript-vue";
-import Vuex from 'vuex'
-import Home from "./components/Home";
-import ReminderCard from "./components/ReminderCard";
-import BottomNav from "./components/BottomNav";
+// import Vuex from 'vuex'
 import Login from "./components/Login"
-
+import master from "./Master"
 import store from './store/store';
 
 Vue.registerElement('BottomNavigation', () => require('nativescript-bottom-navigation').BottomNavigation);
 Vue.registerElement('BottomNavigationTab', () => require('nativescript-bottom-navigation').BottomNavigationTab);
-Vue.use(Vuex)
+
+// Vue.use(Vuex)
 
 new Vue({
-    template: `
-            <Login />
-        `,
-    components: {
-        Home,
-        ReminderCard,
-        BottomNav,
-        Login,
-    },
-    store
-}).$start();
+    store,
+    render: h => h("frame", [h(master)]),
+    components:{
+        Login
+    }
+  }).$start();

@@ -1,75 +1,73 @@
 <template>
-    <FlexboxLayout class="page">
+    <Page enableSwipeBackNavigation="false" actionBarHidden="true">
 
-            <StackLayout class="form">
+        <FlexboxLayout class="page">
 
-                <StackLayout class="input-field">
-                    <TextField v-model="formdata.email" class="input" hint="Email" keyboardType="email" autocorrect="false"></TextField>
-                    <StackLayout class="hr-light m-2"></StackLayout>
+                <StackLayout class="form">
+
+                    <StackLayout class="input-field">
+                        <TextField v-model="formdata.email" class="input" hint="Email" keyboardType="email" autocorrect="false"></TextField>
+                        <StackLayout class="hr-light m-2"></StackLayout>
+                    </StackLayout>
+
+                    <StackLayout class="input-field">
+                        <TextField v-model="formdata.password" class="input" hint="password" keyboardType="password" autocorrect="false" secure="true"></TextField>
+                        <StackLayout class="hr-light m-2"></StackLayout>
+                    </StackLayout>
+
+                    <StackLayout v-if="!isLoggingIn" class="input-field">
+                        <TextField v-model="formdata.confirm" class="input" hint="confirm password" keyboardType="password" autocorrect="false" secure="true"></TextField>
+                        <StackLayout class="hr-light m-2"></StackLayout>
+                    </StackLayout>
+
+                    <Button 
+                    v-if="isLoggingIn"
+                    text='LogIn'
+                    class="btn-login"
+                    @tap=login()
+                    >
+                    </Button>
+
+                    <Button 
+                    v-else
+                    text='Register'
+                    class="btn-login"
+                    @tap=submit()
+                    >
+                    </Button>
+                    <Label class="login-label sign-up-label" @tap="toggleForm()">
+                        <FormattedString>
+                            <Span v-if="isLoggingIn" text="Don't have an account?"></Span>
+                            <Span v-else text="Back to Login."></Span>
+                        </FormattedString>
+                    </Label>
+                    <ActivityIndicator v-if="loading" color="purple" busy="true"></ActivityIndicator>
+
+                    <Label class="login-label sign-up-label" @tap="toggleForm()">
+                        <FormattedString>
+                            <Span v-if="fail && submitted" text="Please enter a valid email"></Span>
+                            <Span v-if="!fail && submitted" text="Success."></Span>
+                        </FormattedString>
+                    </Label>
+
                 </StackLayout>
-
-                <StackLayout class="input-field">
-                    <TextField v-model="formdata.password" class="input" hint="password" keyboardType="password" autocorrect="false" secure="true"></TextField>
-                    <StackLayout class="hr-light m-2"></StackLayout>
-                </StackLayout>
-
-                <StackLayout v-if="!isLoggingIn" class="input-field">
-                    <TextField v-model="formdata.confirm" class="input" hint="confirm password" keyboardType="password" autocorrect="false" secure="true"></TextField>
-                    <StackLayout class="hr-light m-2"></StackLayout>
-                </StackLayout>
-
-                <Button 
-                v-if="isLoggingIn"
-                text='LogIn'
-                class="btn-login"
-                @tap=login()
-                >
-                </Button>
-
-                <Button 
-                v-else
-                text='Register'
-                class="btn-login"
-                @tap=submit()
-                >
-                </Button>
-                <Label class="login-label sign-up-label" @tap="toggleForm()">
-                    <FormattedString>
-                        <Span v-if="isLoggingIn" text="Don't have an account?"></Span>
-                        <Span v-else text="Back to Login."></Span>
-                    </FormattedString>
-                </Label>
-                <ActivityIndicator v-if="loading" color="purple" busy="true"></ActivityIndicator>
-
-                <Label class="login-label sign-up-label" @tap="toggleForm()">
-                    <FormattedString>
-                        <Span v-if="fail && submitted" text="Please enter a valid email"></Span>
-                        <Span v-if="!fail && submitted" text="Success."></Span>
-                    </FormattedString>
-                </Label>
-
-            </StackLayout>
-    </FlexboxLayout>
+        </FlexboxLayout>
+    </Page>
 </template>
 
 <script>
 const httpModule = require("http");
 const dialogs = require("tns-core-modules/ui/dialogs");
+import master from "../Master"
 
-const Detail = {
-  template: `
-    <Page>
-      <StackLayout>
-        <Label text="Details.." />
-      </StackLayout>
-    </Page>
-  `
-};
 
 import axios from "axios";
 
 // import axios from 'axios';
 export default {
+    components: {
+        master
+    },
     data(){
         return{
             formdata:{
@@ -105,15 +103,13 @@ export default {
         login(){
             this.loading = true;
             this.$store.dispatch('user/login', this.formdata);
-            console.log("lol")
-            console.log(this.$store.getters['user/getToken']);
-            if (this.$store.getters['user/getToken']){
-                console.log("made it here")
-                console.log(Detail);
-                this.$navigateTo(Detail);
-            }
-            console.log(this.$store.getters['user/getToken']);
             this.loading = false;
+            if (this.$store.getters['user/getToken']){
+                console.log("made it here");
+                console.log(master);
+                console.log(this.$navigateTo(master));
+                this.$navigateTo(master);
+            }
         },
         toggleForm(){
             this.isLoggingIn = !this.isLoggingIn;
