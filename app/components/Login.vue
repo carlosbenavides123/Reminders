@@ -22,7 +22,7 @@
                 v-if="isLoggingIn"
                 text='LogIn'
                 class="btn-login"
-                @tap=submit()
+                @tap=login()
                 >
                 </Button>
 
@@ -40,6 +40,14 @@
                     </FormattedString>
                 </Label>
                 <ActivityIndicator v-if="loading" color="purple" busy="true"></ActivityIndicator>
+
+                <Label class="login-label sign-up-label" @tap="toggleForm()">
+                    <FormattedString>
+                        <Span v-if="fail && submitted" text="Please enter a valid email"></Span>
+                        <Span v-if="!fail && submitted" text="Success."></Span>
+                    </FormattedString>
+                </Label>
+
             </StackLayout>
     </FlexboxLayout>
 </template>
@@ -47,6 +55,7 @@
 <script>
 const httpModule = require("http");
 const dialogs = require("tns-core-modules/ui/dialogs");
+import axios from "axios";
 
 // import axios from 'axios';
 export default {
@@ -56,32 +65,48 @@ export default {
                 email: '',
                 password: '',
                 confirm: '',
+                fail: false,
             },
             isLoggingIn: true,
             loading: false,
+            fail: false,
+            submitted: false
         }
     },
     methods:{
         submit(){
             this.loading = true;
             console.log("yes");
-            httpModule.request({
-                url: "http://10.0.2.2:8000/api/user/create/",
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                content: JSON.stringify({
-                    name: this.formdata.email,
-                    email: this.formdata.email,
-                    password: this.formdata.password
-                })
-            }).then((response) => {
-                const result = response.content.toJSON();
-                console.log(response)
-            }, (e) => {
-                console.log(e)
+            axios.post('http://10.0.2.2:8000/api/user/create/', {
+                email: this.formdata.email,
+                name: this.formdata.email,
+                password: this.formdata.password
+            }).then(function (response) {
+                console.log("success");
+                console.log(response);
+            })
+            .catch(function (error) {
+                // console.log("LOL");
+                // console.log(error.response);
+                this.fail = true;
             });
-            // this.axios.post('http://127.0.0.1:8000/api/reminder/reminders/',this.user)
-        }, 
+            this.submitted = true;
+            this.loading = false;
+        },
+        login(){
+            this.loading = true;
+            console.log("yes");
+            axios.post('http://10.0.2.2:8000/api/user/token/', {
+                email: this.formdata.email,
+                password: this.formdata.password
+            }).then(function (response) {
+                console.log(response);
+            })
+            .catch(function (error) {
+                // console.log("LOL");
+                console.log(error.response);
+            });
+        },
         toggleForm(){
             this.isLoggingIn = !this.isLoggingIn;
             console.log(this.isLoggingIn);
