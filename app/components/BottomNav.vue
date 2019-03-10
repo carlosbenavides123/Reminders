@@ -1,6 +1,5 @@
 <template>
-        <Page class="page">
-        <GridLayout rows="*, auto">
+    <GridLayout rows="*, auto">
         <StackLayout row="0">
         </StackLayout>
         <BottomNavigation activeColor="white"
@@ -13,6 +12,5 @@
             <BottomNavigationTab title="" icon="ic_view_list" />
         </BottomNavigation>
     </GridLayout>
-    </Page>
 </template>
 

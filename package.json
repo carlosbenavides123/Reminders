@@ -12,10 +12,13 @@
   "license": "SEE LICENSE IN <your-license-filename>",
   "repository": "<fill-your-repository-here>",
   "dependencies": {
+    "axios": "^0.18.0",
     "nativescript-bottom-navigation": "^1.4.4",
+    "nativescript-cardview": "^3.1.1",
     "nativescript-theme-core": "~1.0.4",
     "nativescript-vue": "~2.0.0",
-    "tns-core-modules": "~5.2.0"
+    "tns-core-modules": "~5.2.0",
+    "vuex": "^3.1.0"
   },
   "devDependencies": {
     "@babel/core": "~7.1.0",
