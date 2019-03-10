@@ -3,6 +3,7 @@ import Vue from "nativescript-vue";
 import Login from "./components/Login"
 import master from "./Master"
 import store from './store/store';
+require ("nativescript-local-notifications");
 
 Vue.registerElement('BottomNavigation', () => require('nativescript-bottom-navigation').BottomNavigation);
 Vue.registerElement('BottomNavigationTab', () => require('nativescript-bottom-navigation').BottomNavigationTab);
