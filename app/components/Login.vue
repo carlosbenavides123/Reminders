@@ -55,6 +55,17 @@
 <script>
 const httpModule = require("http");
 const dialogs = require("tns-core-modules/ui/dialogs");
+
+const Detail = {
+  template: `
+    <Page>
+      <StackLayout>
+        <Label text="Details.." />
+      </StackLayout>
+    </Page>
+  `
+};
+
 import axios from "axios";
 
 // import axios from 'axios';
@@ -86,8 +97,6 @@ export default {
                 console.log(response);
             })
             .catch(function (error) {
-                // console.log("LOL");
-                // console.log(error.response);
                 this.fail = true;
             });
             this.submitted = true;
@@ -95,17 +104,16 @@ export default {
         },
         login(){
             this.loading = true;
-            console.log("yes");
-            axios.post('http://10.0.2.2:8000/api/user/token/', {
-                email: this.formdata.email,
-                password: this.formdata.password
-            }).then(function (response) {
-                console.log(response);
-            })
-            .catch(function (error) {
-                // console.log("LOL");
-                console.log(error.response);
-            });
+            this.$store.dispatch('user/login', this.formdata);
+            console.log("lol")
+            console.log(this.$store.getters['user/getToken']);
+            if (this.$store.getters['user/getToken']){
+                console.log("made it here")
+                console.log(Detail);
+                this.$navigateTo(Detail);
+            }
+            console.log(this.$store.getters['user/getToken']);
+            this.loading = false;
         },
         toggleForm(){
             this.isLoggingIn = !this.isLoggingIn;
