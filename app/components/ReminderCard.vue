@@ -1,11 +1,11 @@
 <template>
 	<StackLayout backgroundColor="#3c495e">
-					<!-- <Card:CardView class="card" elevation="40" radius="10" ios:shadowRadius="3">
-						<StackLayout class="card-layout">
-							<Label class="h2" text="{{ heading }}" />
-							<Label class="body" textWrap="true" text="{{ content }}" />
-						</StackLayout>
-					</Card:CardView> -->
-	</StackLayout>
+		<card-view margin="10" elevation="90">
+			<stack-layout>
+				<label text="Jot a task down!" />
+				<TextField  class="input" hint="New Reminder"></TextField>
+			</stack-layout>
+		</card-view>
+   </StackLayout>
 </template>
 

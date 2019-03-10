@@ -6,7 +6,7 @@ import store from './store/store';
 
 Vue.registerElement('BottomNavigation', () => require('nativescript-bottom-navigation').BottomNavigation);
 Vue.registerElement('BottomNavigationTab', () => require('nativescript-bottom-navigation').BottomNavigationTab);
-
+Vue.registerElement('CardView',() => require('nativescript-cardview').CardView);
 // Vue.use(Vuex)
 
 new Vue({
