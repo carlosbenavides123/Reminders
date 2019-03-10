@@ -42,3 +42,12 @@ class ModelTests(TestCase):
 
         self.assertTrue(user.is_superuser)
         self.assertTrue(user.is_staff)
+
+    def test_reminder_str(self):
+        """Test reminder representation"""
+        reminder = models.Reminder.objects.create(
+            user=sample_user(),
+            name="Todo"
+        )
+
+        self.assertEqual(str(reminder), reminder.name)
