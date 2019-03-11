@@ -34,6 +34,8 @@ var min = offset.getMinutes();
 
 var month = offset.getMonth() + 1;
 var day = offset.getDate();
+var id = 1;
+var arr = [];
 
 export default {
 	created() {
@@ -79,33 +81,37 @@ export default {
 			var d = new Date(2019, nowMonth, nowDay,  nowHour, nowMinute);
 			console.log(d);
 			console.log(nowMinute);
+			id+=1;
+
+			var input = 	[
+					{
+						id: id,
+						title: 'Reminder',
+						body: this.reminder,
+						bigTextStyle: false,
+						color: new Color("Green"),
+						forceShowWhenInForeground: true,
+						channel: "vue-channel",
+						ticker: "Special ticker text for Vue (Android only)",
+						at: d, 
+						actions: [
+							{
+							id: "ok",
+							type: "button",
+							},
+						]
+					}
+				]
 
 			LocalNotifications.schedule(
-				[{
-				id: 1,
-				title: 'Reminder!',
-				body: this.reminder,
-				bigTextStyle: false, 
-				color: new Color("green"),
-				forceShowWhenInForeground: true,
-				channel: "vue-channel",
-				ticker: "Special ticker text for Vue (Android only)",
-				at: d, 
-				actions: [
-					{
-					id: "ok",
-					type: "button",
-					},
-				]
-				}])
-				.then(() => {
+				input
+			).then(() => {
 				alert({
 					title: "Notification scheduled",
-					message: "ID: 1",
+					message: "ID: " +id,
 					okButtonText: "OK, thanks"
 				});
-				})
-				.catch(error => console.log("doSchedule error: " + error));
+			}).catch(error => console.log("doSchedule error: " + error));
 
 		},
       onTapCancelAll() {
