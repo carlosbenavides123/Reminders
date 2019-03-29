@@ -6,7 +6,8 @@ import {
     SafeAreaView,
     TextInput,
     Platform,
-    StatusBar
+    StatusBar,
+    Picker
 } from "react-native";
 import Icon from 'react-native-vector-icons/Ionicons'
 import {RkCard, RkTheme, RkTextInput} from 'react-native-ui-kitten';
@@ -54,6 +55,12 @@ class Create extends Component {
                         {/* <Image rkCardImg source={require('../img/sea.jpg')}/> */}
                         <View rkCardContent>
                             <RkTextInput rkType='progress' placeholder='Title'/>
+                            <View>
+                                <Picker>
+                                    <Picker.Item label="Java" value="java"/>
+                                    <Picker.Item label="JavaScript" value="js"/>
+                                </Picker>
+                            </View>
                         </View>
                         <View rkCardFooter>
                             <Text>Footer</Text>
