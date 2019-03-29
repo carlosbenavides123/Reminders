@@ -9,7 +9,21 @@ import {
     StatusBar
 } from "react-native";
 import Icon from 'react-native-vector-icons/Ionicons'
-import {RkCard, RkTheme} from 'react-native-ui-kitten';
+import {RkCard, RkTheme, RkTextInput} from 'react-native-ui-kitten';
+
+// when input state is not null...
+RkTheme.setType('RkTextInput', 'progress', {
+    input: {
+        backgroundColor: 'white',
+        marginLeft: 0,
+        marginHorizontal: 0,
+        borderRadius: 5
+      },
+    labelColor:'blue',
+    underlineColor:'blue',
+    underlineWidth:1,
+    placeholderTextColor:"#87ceeb",
+});
 
 RkTheme.setType('RkCard', 'lol', {
     header: {
@@ -19,6 +33,7 @@ RkTheme.setType('RkCard', 'lol', {
       alignSelf:'center',
     }
   });
+
 class Create extends Component {
 
     componentWillMount() {
@@ -38,7 +53,7 @@ class Create extends Component {
                         </View>
                         {/* <Image rkCardImg source={require('../img/sea.jpg')}/> */}
                         <View rkCardContent>
-                            <Text> quick brown fox jumps over the lazy dog</Text>
+                            <RkTextInput rkType='progress' placeholder='Title'/>
                         </View>
                         <View rkCardFooter>
                             <Text>Footer</Text>
@@ -60,13 +75,17 @@ const styles = StyleSheet.create({
 });
 
 const card = StyleSheet.create({
-    borderBottomLeftRadius: 15,
-    borderBottomRightRadius: 15,
-    borderTopLeftRadius: 15,
-    borderTopRightRadius: 15,
+    borderBottomLeftRadius: 10,
+    borderBottomRightRadius: 10,
+    borderTopLeftRadius: 10,
+    borderTopRightRadius: 10,
     margin: 20
 })
 
 const header_text = StyleSheet.create({
-    fontSize: 20,
+    fontSize: 12.5,
+})
+
+const label = StyleSheet.create({
+    fontSize: 10
 })
