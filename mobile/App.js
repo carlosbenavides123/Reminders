@@ -8,13 +8,17 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import Create from "./screens/Create";
 import Saved from "./screens/Saved";
 
+import { Card} from 'gestalt';
+
 class App extends React.Component {
   render() {
     return (
       <View style={styles.container}>
+        <Card>
         <Text style={styles.welcome}>Welcome to React Native!</Text>
         <Text style={styles.instructions}>To get started, edit App.js</Text>
         <Text style={styles.instructions}>{instructions}</Text>
+        </Card>
       </View>
     );
   }
