@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+
 import {
     View,
     Text,
@@ -9,7 +10,9 @@ class Saved extends Component {
     render() {
         return (
             <View style={styles.container}>
-                <Text>Saved</Text>
+                <Text>
+                    Saved
+                </Text>
             </View>
         );
     }
