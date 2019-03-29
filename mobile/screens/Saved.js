@@ -1,4 +1,7 @@
 import React, { Component } from "react";
+import { Card } from "gestalt";
+// import "gestalt/dist/gestalt.css";
+
 import {
     View,
     Text,
@@ -8,8 +11,12 @@ import {
 class Saved extends Component {
     render() {
         return (
+            <Card>
+</Card>
             <View style={styles.container}>
+
                 <Text>Saved</Text>
+                {/* </Card> */}
             </View>
         );
     }
