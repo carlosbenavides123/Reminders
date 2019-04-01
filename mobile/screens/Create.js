@@ -7,7 +7,9 @@ import {
     TextInput,
     Platform,
     StatusBar,
-    Picker
+    Picker,
+    TouchableHighlight,
+    tintColor
 } from "react-native";
 import Icon from 'react-native-vector-icons/Ionicons'
 import {RkCard, RkTheme, RkTextInput} from 'react-native-ui-kitten';
@@ -44,6 +46,10 @@ class Create extends Component {
         }
     }
 
+    onPress = () => {
+        console.log("LOL")
+      }
+
     render() {
         return (
             <SafeAreaView style={{ flex: 1 }}>
@@ -57,13 +63,23 @@ class Create extends Component {
                             <RkTextInput rkType='progress' placeholder='Title'/>
                             <View>
                                 <Picker>
-                                    <Picker.Item label="Java" value="java"/>
-                                    <Picker.Item label="JavaScript" value="js"/>
+                                    <Picker.Item label="Tomorrow" value="tomorrow"/>
+                                    <Picker.Item label="Today" value="today"/>
+                                    <Picker.Item label="Tomorrow" value="tomorrow"/>
+                                </Picker>
+                                <Picker>
+                                    <Picker.Item label="Morning" value="morning"/>
+                                    <Picker.Item label="Afternoon" value="afternoon"/>
+                                    <Picker.Item label="Evening" value="evening"/>
+                                </Picker>
+                                <Picker>
+                                    <Picker.Item label="None" value="none"/>
                                 </Picker>
                             </View>
                         </View>
                         <View rkCardFooter>
-                            <Text>Footer</Text>
+                            <Icon.Button name="ios-close" size={35} backgroundColor="#ffffff" color="#808080" />
+                            <Icon.Button name="ios-checkmark" size={35} backgroundColor="#ffffff" color="#A9A9A9" />
                         </View>
                     </RkCard>
                 </View>
