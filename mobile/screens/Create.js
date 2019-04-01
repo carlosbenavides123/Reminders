@@ -9,10 +9,12 @@ import {
     StatusBar,
     Picker,
     TouchableHighlight,
-    tintColor
+    tintColor,
+    TouchableOpacity
 } from "react-native";
 import Icon from 'react-native-vector-icons/Ionicons'
 import {RkCard, RkTheme, RkTextInput} from 'react-native-ui-kitten';
+import DateTimePicker from 'react-native-modal-datetime-picker';
 
 // when input state is not null...
 RkTheme.setType('RkTextInput', 'progress', {
@@ -39,6 +41,23 @@ RkTheme.setType('RkCard', 'lol', {
 
 class Create extends Component {
 
+    state = {
+        isDateVisible: false,
+        isTimeVisible: false,
+        day: "Tomorrow"
+      };
+
+    _showDatePicker = () => this.setState({ isDateVisible: true });
+    _hideDatePicker = () => this.setState({ isDateVisible: false });
+
+    _showTimePicker = () => this.setState({ isTimeVisible: true });
+    _hideTimePicker = () => this.setState({ isTimeVisible: false });
+
+    _handleDatePicked = (date) => {
+        console.log('A date has been picked: ', date);
+        this._hideDatePicker();
+      };
+    
     componentWillMount() {
         this.startHeaderHeight = 80
         if (Platform.OS == 'android') {
@@ -46,14 +65,40 @@ class Create extends Component {
         }
     }
 
-    onPress = () => {
-        console.log("LOL")
-      }
+    pickDate = (val) =>{
+        this.state.isDateVisible = val
+        if(this.state.isDateVisible == "set_day"){
+            this._showDatePicker();
+        }
+        console.log(this.state.isDateVisible)
+    }
+
+    pickTime = (val) =>{
+        this.state.isTimeVisible = val
+        if(this.state.isTimeVisible == "set_time"){
+            this._showTimePicker();
+        }
+    }
 
     render() {
         return (
             <SafeAreaView style={{ flex: 1 }}>
+
+                <DateTimePicker
+                    isVisible={this.state.isDateVisible}
+                    onConfirm={this._handleDatePicked}
+                    onCancel={this._hideDatePicker}
+                />
+ 
+                 <DateTimePicker
+                     isVisible={this.state.isTimeVisible}
+                     onConfirm={this._handleDatePicked}
+                     onCancel={this._hideTimePicker}
+                     mode="time"
+                 />
+
                 <View style={{ flex: 1 }}>
+
                     <RkCard kType='lol' style={card}>
                         <View rkCardHeader>
                             <Text style={header_text}>Add a reminder...</Text>
@@ -62,16 +107,22 @@ class Create extends Component {
                         <View rkCardContent>
                             <RkTextInput rkType='progress' placeholder='Title'/>
                             <View>
-                                <Picker>
-                                    <Picker.Item style={picker_style} label="Tomorrow" value="tomorrow"/>
+
+                                <Picker
+                                    onValueChange={(itemValue, itemIndex) => this.pickDate(itemValue)}
+                                >
+                                    <Picker.Item  style={picker_style} label={this.state.day} value="tomorrow"/>
                                     <Picker.Item label="Today" value="today"/>
-                                    <Picker.Item label="➡️  Select Day..." value="fr" />
+                                    <Picker.Item label="➡️  Select Day..." value="set_day"/>
                                 </Picker>
-                                <Picker>
+
+                                <Picker
+                                    onValueChange={(itemValue, itemIndex) => this.pickTime(itemValue)}
+                                >
                                     <Picker.Item label="Morning" value="Morning"/>
                                     <Picker.Item label="Afternoon" value="Afternoon"/>
                                     <Picker.Item label="Evening" value="Evening"/>
-                                    <Picker.Item label="➡️  Set time..." value="fr" />
+                                    <Picker.Item label="➡️  Set time..." value="set_time" />
                                 </Picker>
                                 <Picker>
                                     <Picker.Item label="None" value="none"/>
