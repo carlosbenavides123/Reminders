@@ -44,7 +44,10 @@ class Create extends Component {
     state = {
         isDateVisible: false,
         isTimeVisible: false,
-        day: "Tomorrow"
+        label_day: "Tomorrow",
+        label_time: "Morning",
+        day: "Tomorrow",
+        time: "Morning"
       };
 
     _showDatePicker = () => this.setState({ isDateVisible: true });
@@ -54,9 +57,39 @@ class Create extends Component {
     _hideTimePicker = () => this.setState({ isTimeVisible: false });
 
     _handleDatePicked = (date) => {
-        console.log('A date has been picked: ', date);
+        const monthNames = ["January", "February", "March", "April", "May", "June",
+            "July", "August", "September", "October", "November", "December"];
+        const dayNames = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday",
+            "Friday", "Saturday"]
+
+        // UX
+        this.state.label_day = dayNames[date.getDay()] + ", "+ monthNames[date.getMonth()] + " " + date.getDate() 
+
+        // send to BE
+        var month = date.getUTCMonth() + 1; //months from 1-12
+        var day = date.getUTCDate();
+        var year = date.getUTCFullYear();
+        this.state.day = year + "/" + month + "/" + day;
+
         this._hideDatePicker();
       };
+
+    _handleTimePicked = (date) => {
+        var hours = date.getHours();
+        var minutes = date.getMinutes();
+        var ampm = hours >= 12 ? 'PM' : 'AM';
+
+        hours = hours % 12;
+        hours = hours ? hours : 12;
+        minutes = minutes < 10 ? '0'+minutes : minutes;
+
+        var strTime = hours + ':' + minutes + ' ' + ampm;
+
+        this.state.label_time = strTime;
+        this.state.time = hours+":"+minutes
+
+        this._hideTimePicker();
+    };
     
     componentWillMount() {
         this.startHeaderHeight = 80
@@ -66,16 +99,16 @@ class Create extends Component {
     }
 
     pickDate = (val) =>{
-        this.state.isDateVisible = val
-        if(this.state.isDateVisible == "set_day"){
+        if(val == "set_day"){
             this._showDatePicker();
+        } else {
+            this.state.label_day = val
         }
-        console.log(this.state.isDateVisible)
     }
 
     pickTime = (val) =>{
-        this.state.isTimeVisible = val
-        if(this.state.isTimeVisible == "set_time"){
+        this.state.label_time = val
+        if(this.state.label_time == "set_time"){
             this._showTimePicker();
         }
     }
@@ -92,7 +125,7 @@ class Create extends Component {
  
                  <DateTimePicker
                      isVisible={this.state.isTimeVisible}
-                     onConfirm={this._handleDatePicked}
+                     onConfirm={this._handleTimePicked}
                      onCancel={this._hideTimePicker}
                      mode="time"
                  />
@@ -111,21 +144,18 @@ class Create extends Component {
                                 <Picker
                                     onValueChange={(itemValue, itemIndex) => this.pickDate(itemValue)}
                                 >
-                                    <Picker.Item  style={picker_style} label={this.state.day} value="tomorrow"/>
-                                    <Picker.Item label="Today" value="today"/>
+                                    <Picker.Item  style={picker_style} label={this.state.label_day} value={this.state.label_day}/>
+                                    <Picker.Item label="Today" value="Today"/>
                                     <Picker.Item label="➡️  Select Day..." value="set_day"/>
                                 </Picker>
 
                                 <Picker
                                     onValueChange={(itemValue, itemIndex) => this.pickTime(itemValue)}
                                 >
-                                    <Picker.Item label="Morning" value="Morning"/>
+                                    <Picker.Item label={this.state.label_time} value={this.state.label_time}/>
                                     <Picker.Item label="Afternoon" value="Afternoon"/>
                                     <Picker.Item label="Evening" value="Evening"/>
                                     <Picker.Item label="➡️  Set time..." value="set_time" />
-                                </Picker>
-                                <Picker>
-                                    <Picker.Item label="None" value="none"/>
                                 </Picker>
                             </View>
                         </View>
