@@ -63,14 +63,15 @@ class Create extends Component {
                             <RkTextInput rkType='progress' placeholder='Title'/>
                             <View>
                                 <Picker>
-                                    <Picker.Item label="Tomorrow" value="tomorrow"/>
+                                    <Picker.Item style={picker_style} label="Tomorrow" value="tomorrow"/>
                                     <Picker.Item label="Today" value="today"/>
-                                    <Picker.Item label="Tomorrow" value="tomorrow"/>
+                                    <Picker.Item label="➡️  Select Day..." value="fr" />
                                 </Picker>
                                 <Picker>
-                                    <Picker.Item label="Morning" value="morning"/>
-                                    <Picker.Item label="Afternoon" value="afternoon"/>
-                                    <Picker.Item label="Evening" value="evening"/>
+                                    <Picker.Item label="Morning" value="Morning"/>
+                                    <Picker.Item label="Afternoon" value="Afternoon"/>
+                                    <Picker.Item label="Evening" value="Evening"/>
+                                    <Picker.Item label="➡️  Set time..." value="fr" />
                                 </Picker>
                                 <Picker>
                                     <Picker.Item label="None" value="none"/>
@@ -111,4 +112,8 @@ const header_text = StyleSheet.create({
 
 const label = StyleSheet.create({
     fontSize: 10
+})
+
+const picker_style = StyleSheet.create({
+    width: 10000
 })
