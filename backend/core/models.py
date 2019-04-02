@@ -40,9 +40,10 @@ class User(AbstractBaseUser, PermissionsMixin):
 class Reminder(models.Model):
     """Reminders to be used for users"""
     name = models.CharField(max_length=255)
+    date = models.CharField(max_length=255)
     user = models.ForeignKey(
-        settings.AUTH_USER_MODEL,
-        on_delete=models.CASCADE
+            settings.AUTH_USER_MODEL,
+            on_delete=models.CASCADE
         )
 
     def __str__(self):
