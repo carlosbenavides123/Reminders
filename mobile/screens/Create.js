@@ -10,11 +10,15 @@ import {
     Picker,
     TouchableHighlight,
     tintColor,
-    TouchableOpacity
+    TouchableOpacity,
+    Dimensions
 } from "react-native";
 import Icon from 'react-native-vector-icons/Ionicons'
 import {RkCard, RkTheme, RkTextInput} from 'react-native-ui-kitten';
 import DateTimePicker from 'react-native-modal-datetime-picker';
+import Modal from "react-native-modal";
+import ExtraDimensions from 'react-native-extra-dimensions-android';
+import axios from 'axios';
 
 // when input state is not null...
 RkTheme.setType('RkTextInput', 'progress', {
@@ -50,7 +54,8 @@ class Create extends Component {
             label_time: "Morning",
             day: "Tomorrow",
             time: "Morning",
-            text: ""
+            text: "",
+            modalVisible: false
         };
     }
 
@@ -64,7 +69,7 @@ class Create extends Component {
         const monthNames = ["January", "February", "March", "April", "May", "June",
             "July", "August", "September", "October", "November", "December"];
         const dayNames = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday",
-            "Friday", "Saturday"]
+            "Friday", "Saturday"];
 
         // UX
         this.state.label_day = dayNames[date.getDay()] + ", "+ monthNames[date.getMonth()] + " " + date.getDate() 
@@ -119,8 +124,6 @@ class Create extends Component {
     }
 
     reset = () => {
-        console.log("pressed");
-        console.log(this.state.text)
         this.setState({ isDateVisible: false })
         this.setState({ isTimeVisible: false })
         this.setState({ label_day: "Tomorrow" })
@@ -131,17 +134,46 @@ class Create extends Component {
     };
 
     submit = () => {
-        console.log("pressed");
-        this.setState({ isDateVisible: false })
-        this.setState({ isTimeVisible: false })
-        this.setState({ label_day: "Tomorrow" })
-        this.setState({ label_time: "Morning" })
-        this.setState({ day: "Tomorrow" })
-        this.setState({ time: "Morning" })
-        this.setState({ text: "" })
+        this.setState({ modalVisible: true })
     };
 
+    post_to_db = () => {
+        axios.post(`https://jsonplaceholder.typicode.com/users`,{
+            "text": this.state.text,
+            "day": this.state.day,
+            "time": this.state.time
+        })
+        .then(res => {
+            console.log(res);
+        })
+        .catch( err => {
+            console.log(err);
+        });
+    }
+
+    renderModalContent = () => (
+        <View>
+            <Text>
+                Remember {this.state.text} at {this.state.label_day} {this.state.label_time}
+            </Text>
+            {this.renderButton("Ok, got it!", this.post_to_db())}
+        </View>
+      );
+
+      renderButton = (text, onPress) => (
+        <TouchableOpacity onPress={onPress}>
+          <View>
+            <Text >{text}</Text>
+          </View>
+        </TouchableOpacity>
+      );
+
     render() {
+        const deviceWidth = Dimensions.get("window").width;
+        const deviceHeight = Platform.OS === "ios"
+          ? Dimensions.get("window").height
+          : require("react-native-extra-dimensions-android").get("REAL_WINDOW_HEIGHT");
+
         return (
             <SafeAreaView style={{ flex: 1 }}>
 
@@ -158,13 +190,22 @@ class Create extends Component {
                      mode="time"
                  />
 
+                <Modal 
+                    style={styles.modalContent}
+                    isVisible={this.state.modalVisible}
+                    deviceWidth={deviceWidth}
+                    deviceHeight={deviceHeight}
+                >
+                    {this.renderModalContent()}
+                </Modal>
+
                 <View style={{ flex: 1 }}>
 
                     <RkCard kType='lol' style={card}>
                         <View rkCardHeader>
                             <Text style={header_text}>Add a reminder...</Text>
                         </View>
-                        {/* <Image rkCardImg source={require('../img/sea.jpg')}/> */}
+
                         <View rkCardContent>
 
                             <RkTextInput
@@ -225,7 +266,24 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center'
-    }
+    },
+    modalContent: {
+        backgroundColor: "white",
+        padding: 50,
+        justifyContent: "center",
+        alignItems: "center",
+        borderRadius: 4,
+        borderColor: "rgba(0, 0, 0, 0.1)",
+      },
+      button_modal: {
+        backgroundColor: "lightblue",
+        padding: 12,
+        margin: 16,
+        justifyContent: "center",
+        alignItems: "center",
+        borderRadius: 4,
+        borderColor: "rgba(0, 0, 0, 0.1)",
+      },
 });
 
 const card = StyleSheet.create({
