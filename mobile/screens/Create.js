@@ -40,15 +40,19 @@ RkTheme.setType('RkCard', 'lol', {
   });
 
 class Create extends Component {
+    constructor() {
+        super()
 
-    state = {
-        isDateVisible: false,
-        isTimeVisible: false,
-        label_day: "Tomorrow",
-        label_time: "Morning",
-        day: "Tomorrow",
-        time: "Morning"
-      };
+        this.state = {
+            isDateVisible: false,
+            isTimeVisible: false,
+            label_day: "Tomorrow",
+            label_time: "Morning",
+            day: "Tomorrow",
+            time: "Morning",
+            text: ""
+        };
+    }
 
     _showDatePicker = () => this.setState({ isDateVisible: true });
     _hideDatePicker = () => this.setState({ isDateVisible: false });
@@ -102,16 +106,40 @@ class Create extends Component {
         if(val == "set_day"){
             this._showDatePicker();
         } else {
-            this.state.label_day = val
+            this.setState({ label_day: val });
         }
     }
 
-    pickTime = (val) =>{
-        this.state.label_time = val
-        if(this.state.label_time == "set_time"){
+    pickTime = (val) => {
+        if(val== "set_time"){
             this._showTimePicker();
+        } else {
+            this.setState({ label_time: val });
         }
     }
+
+    reset = () => {
+        console.log("pressed");
+        console.log(this.state.text)
+        this.setState({ isDateVisible: false })
+        this.setState({ isTimeVisible: false })
+        this.setState({ label_day: "Tomorrow" })
+        this.setState({ label_time: "Morning" })
+        this.setState({ day: "Tomorrow" })
+        this.setState({ time: "Morning" })
+        this.setState({ text: "" })
+    };
+
+    submit = () => {
+        console.log("pressed");
+        this.setState({ isDateVisible: false })
+        this.setState({ isTimeVisible: false })
+        this.setState({ label_day: "Tomorrow" })
+        this.setState({ label_time: "Morning" })
+        this.setState({ day: "Tomorrow" })
+        this.setState({ time: "Morning" })
+        this.setState({ text: "" })
+    };
 
     render() {
         return (
@@ -138,14 +166,21 @@ class Create extends Component {
                         </View>
                         {/* <Image rkCardImg source={require('../img/sea.jpg')}/> */}
                         <View rkCardContent>
-                            <RkTextInput rkType='progress' placeholder='Title'/>
+
+                            <RkTextInput
+                                rkType='progress' 
+                                placeholder='Title'
+                                value ={this.state.text}
+                                onChangeText={(text) => this.setState({text})}
+                            />
+
                             <View>
 
                                 <Picker
                                     onValueChange={(itemValue, itemIndex) => this.pickDate(itemValue)}
                                 >
-                                    <Picker.Item  style={picker_style} label={this.state.label_day} value={this.state.label_day}/>
-                                    <Picker.Item label="Today" value="Today"/>
+                                    <Picker.Item label={this.state.label_day} value={this.state.label_day}/>
+                                    <Picker.Item label={ (this.state.label_day == "Today") ? "Tomorrow" : "Today" } value={ (this.state.label_day == "Today") ? "Tomorrow" : "Today" } />
                                     <Picker.Item label="➡️  Select Day..." value="set_day"/>
                                 </Picker>
 
@@ -153,16 +188,30 @@ class Create extends Component {
                                     onValueChange={(itemValue, itemIndex) => this.pickTime(itemValue)}
                                 >
                                     <Picker.Item label={this.state.label_time} value={this.state.label_time}/>
-                                    <Picker.Item label="Afternoon" value="Afternoon"/>
-                                    <Picker.Item label="Evening" value="Evening"/>
+                                    <Picker.Item label={ (this.state.label_time === "Afternoon") ? "Morning" : "Afternoon" } value={ (this.state.label_time === "Afternoon") ? "Morning" : "Afternoon" }/>
+                                    <Picker.Item label={ (this.state.label_time === "Evening") ? "Morning" : "Evening" } value={ (this.state.label_time === "Evening") ? "Morning" : "Evening" }/>
                                     <Picker.Item label="➡️  Set time..." value="set_time" />
                                 </Picker>
                             </View>
                         </View>
+
                         <View rkCardFooter>
-                            <Icon.Button name="ios-close" size={35} backgroundColor="#ffffff" color="#808080" />
-                            <Icon.Button name="ios-checkmark" size={35} backgroundColor="#ffffff" color="#A9A9A9" />
+                            <Icon.Button 
+                                name="ios-close" 
+                                size={35} 
+                                backgroundColor="#ffffff" 
+                                color="#808080"
+                                onPress={ () => this.reset() }
+                                />
+                            <Icon.Button
+                                name="ios-checkmark"
+                                size={35}
+                                backgroundColor="#ffffff"
+                                color="#A9A9A9"
+                                onPress={ () => this.submit() }
+                                />
                         </View>
+
                     </RkCard>
                 </View>
             </SafeAreaView>
