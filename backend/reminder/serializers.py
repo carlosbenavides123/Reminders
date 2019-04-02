@@ -8,5 +8,5 @@ class ReminderSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Reminder
-        fields = ('id', 'name')
+        fields = ('id', 'name', 'date')
         read_only_Fields = ('id',)

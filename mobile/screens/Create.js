@@ -18,6 +18,7 @@ import {RkCard, RkTheme, RkTextInput} from 'react-native-ui-kitten';
 import DateTimePicker from 'react-native-modal-datetime-picker';
 import Modal from "react-native-modal";
 import ExtraDimensions from 'react-native-extra-dimensions-android';
+import axios from 'axios';
 
 // when input state is not null...
 RkTheme.setType('RkTextInput', 'progress', {
@@ -136,12 +137,26 @@ class Create extends Component {
         this.setState({ modalVisible: true })
     };
 
+    post_to_db = () => {
+        axios.post(`https://jsonplaceholder.typicode.com/users`,{
+            "text": this.state.text,
+            "day": this.state.day,
+            "time": this.state.time
+        })
+        .then(res => {
+            console.log(res);
+        })
+        .catch( err => {
+            console.log(err);
+        });
+    }
+
     renderModalContent = () => (
         <View>
             <Text>
                 Remember {this.state.text} at {this.state.label_day} {this.state.label_time}
             </Text>
-            {this.renderButton("Ok, got it!", () => this.setState({ modalVisible: false }))}
+            {this.renderButton("Ok, got it!", this.post_to_db())}
         </View>
       );
 
