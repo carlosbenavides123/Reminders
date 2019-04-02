@@ -3,9 +3,10 @@ from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 
 from core.models import Reminder
+from django.http import HttpResponse
 
 from reminder import serializers
-
+import json
 
 class ReminderViewSet(viewsets.GenericViewSet,
                      mixins.ListModelMixin,
@@ -20,6 +21,10 @@ class ReminderViewSet(viewsets.GenericViewSet,
         """Return objects for the current authenticated user only"""
         return self.queryset.filter(user=self.request.user).order_by('-name')
 
-    def perform_create(self, serializer):
+    def create(self, serializer):
+        """Create a new ingredient"""
+        return HttpResponse(json.dumps({"LOL": 123}))
+
+    def perform_update(self, serializer):
         """Create a new ingredient"""
         serializer.save(user=self.request.user)
