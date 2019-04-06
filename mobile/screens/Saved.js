@@ -1,6 +1,17 @@
 import React, { Component } from "react";
 import axios from 'axios';
 
+import {RkCard, RkTheme} from 'react-native-ui-kitten';
+
+RkTheme.setType('RkCard', 'lol', {
+    header: {
+      alignSelf: 'center',
+    },
+    content:{
+      alignSelf:'center',
+    }
+  });
+
 import {
     View,
     Text,
@@ -45,18 +56,20 @@ class Saved extends Component {
         contents = this.state.reminders.map(function (item) {
             return (
               <View key={item.id}>
-                <Text>{item.id} {item.date} {item.name}</Text>
+                <RkCard kType='lol' style={card}>
+                    <View rkCardContent>
+                        <Text>{item.name} {item.date}</Text>
+                    </View>
+                </RkCard>
               </View>
             );
          });
 
-        // if(this.state.reminders){
         return (
             <View style={styles.container}>
-                    {contents}
+                {contents}
             </View>
         );
-        // }
     }
 }
 export default Saved;
@@ -68,3 +81,12 @@ const styles = StyleSheet.create({
         justifyContent: 'center'
     }
 });
+
+
+const card = StyleSheet.create({
+    borderBottomLeftRadius: 10,
+    borderBottomRightRadius: 10,
+    borderTopLeftRadius: 10,
+    borderTopRightRadius: 10,
+    margin: 20
+})
