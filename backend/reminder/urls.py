@@ -1,10 +1,12 @@
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 
-from . import views
+from reminder import views
 
 app_name = 'reminder'
+router = DefaultRouter()
+router.register('reminder', views.ReminderViewSet)
 
 urlpatterns = [
-    path('create/', views.ReminderViewSet.as_view({'post': 'create'}), name='create')
+    path('', include(router.urls))
 ]

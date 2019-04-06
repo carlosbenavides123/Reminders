@@ -10,7 +10,3 @@ class ReminderSerializer(serializers.ModelSerializer):
         model = Reminder
         fields = ('id', 'name', 'date')
         read_only_Fields = ('id',)
-
-    def create(self, validated_data):
-        """Create a new user with encrypted password and return it"""
-        return 123
