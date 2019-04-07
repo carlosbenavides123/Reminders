@@ -24,7 +24,13 @@ class ReminderViewSet(viewsets.GenericViewSet,
 
     def perform_create(self, serializer):
         """ Create a new reminder"""
-        serializer.save(user=self.request.user)
+        print("TESD")
+        self.test_lol()
+        return HttpResponse("123")
+        # serializer.save(user=self.request.user)
+
+    def test_lol(self):
+        print("!$#@$")
 
     # def perform_update(self, serializer):
     #     """Create a new ingredient"""
