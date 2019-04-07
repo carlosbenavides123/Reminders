@@ -11,10 +11,12 @@ import {
     TouchableHighlight,
     tintColor,
     TouchableOpacity,
-    Dimensions
+    Dimensions,
+    Button
 } from "react-native";
+
 import Icon from 'react-native-vector-icons/Ionicons'
-import {RkCard, RkTheme, RkTextInput} from 'react-native-ui-kitten';
+import {RkCard, RkTheme, RkTextInput, RkButton} from 'react-native-ui-kitten';
 import DateTimePicker from 'react-native-modal-datetime-picker';
 import Modal from "react-native-modal";
 import ExtraDimensions from 'react-native-extra-dimensions-android';
@@ -55,7 +57,7 @@ class Create extends Component {
             day: "Tomorrow",
             time: "Morning",
             text: "",
-            modalVisible: false
+            modalVisible: false,
         };
     }
 
@@ -90,7 +92,7 @@ class Create extends Component {
 
         hours = hours % 12;
         hours = hours ? hours : 12;
-        minutes = minutes < 10 ? '0'+minutes : minutes;
+        minutes = minutes < 10 ? '0' + minutes : minutes;
 
         var strTime = hours + ':' + minutes + ' ' + ampm;
 
@@ -131,48 +133,81 @@ class Create extends Component {
         this.setState({ day: "Tomorrow" })
         this.setState({ time: "Morning" })
         this.setState({ text: "" })
+        this.setState({ send: false })
+        this.setState({ modalVisible: false })
     };
 
     submit = () => {
         this.setState({ modalVisible: true })
+        // this.setState({ send: true })
     };
 
     post_to_db = () => {
-        axios.post(`https://jsonplaceholder.typicode.com/users`,{
-            "text": this.state.text,
-            "day": this.state.day,
+
+        var data = {
+            "name": this.state.text,
+            "date": this.state.day,
             "time": this.state.time
+        }
+
+        axios.post(`http://10.0.2.2:8000/api/reminder/reminder/`, data, {
+            headers: { 'Authorization': 'Token 67683fffab1fc8dcd9fe5c66e6fa9a410c73a1cd' }
         })
         .then(res => {
             console.log(res);
+            this.reset()
         })
         .catch( err => {
+            // todo create validation errors...
+            this.setState({ modalVisible: false })
             console.log(err);
         });
     }
+
+    renderModal() {
+
+        const deviceWidth = Dimensions.get("window").width;
+        const deviceHeight = Platform.OS === "ios"
+          ? Dimensions.get("window").height
+          : require("react-native-extra-dimensions-android").get("REAL_WINDOW_HEIGHT");
+
+        return (
+            <View>
+                { 
+                    this.state.modalVisible == true &&
+                    (
+                        <Modal 
+                        style={styles.modalContent}
+                        isVisible={this.state.modalVisible}
+                        deviceWidth={deviceWidth}
+                        deviceHeight={deviceHeight}
+                        >
+                            {this.renderModalContent()}
+                        </Modal>
+                    )
+                }
+            </View>
+        )
+      }
 
     renderModalContent = () => (
         <View>
             <Text>
                 Remember {this.state.text} at {this.state.label_day} {this.state.label_time}
             </Text>
-            {this.renderButton("Ok, got it!", this.post_to_db())}
+            {this.renderButton()}
         </View>
       );
 
-      renderButton = (text, onPress) => (
-        <TouchableOpacity onPress={onPress}>
-          <View>
-            <Text >{text}</Text>
-          </View>
-        </TouchableOpacity>
+      renderButton = () => (
+        <Button
+        style={{backgroundColor: 'red'}}
+        onPress={ () => this.post_to_db()}
+        title="button"
+        >Ok, got it!</Button>
       );
 
     render() {
-        const deviceWidth = Dimensions.get("window").width;
-        const deviceHeight = Platform.OS === "ios"
-          ? Dimensions.get("window").height
-          : require("react-native-extra-dimensions-android").get("REAL_WINDOW_HEIGHT");
 
         return (
             <SafeAreaView style={{ flex: 1 }}>
@@ -190,14 +225,7 @@ class Create extends Component {
                      mode="time"
                  />
 
-                <Modal 
-                    style={styles.modalContent}
-                    isVisible={this.state.modalVisible}
-                    deviceWidth={deviceWidth}
-                    deviceHeight={deviceHeight}
-                >
-                    {this.renderModalContent()}
-                </Modal>
+                {this.renderModal()}
 
                 <View style={{ flex: 1 }}>
 
