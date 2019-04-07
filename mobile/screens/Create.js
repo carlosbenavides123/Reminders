@@ -58,7 +58,6 @@ class Create extends Component {
             time: "Morning",
             text: "",
             modalVisible: false,
-            send: false
         };
     }
 
@@ -144,28 +143,22 @@ class Create extends Component {
     };
 
     post_to_db = () => {
-        var config = {
-            headers: {
-                'Authorization': 'Token 67683fffab1fc8dcd9fe5c66e6fa9a410c73a1cd',
-                'Content-Type': 'application/json'
-            }
-        };
 
         var data = {
-            "text": this.state.text,
-            "day": this.state.day,
+            "name": this.state.text,
+            "date": this.state.day,
             "time": this.state.time
         }
 
-
-        axios.post(`http://10.0.2.2:8000/api/reminder/reminder/`, data, {headers: config})
+        axios.post(`http://10.0.2.2:8000/api/reminder/reminder/`, data, {
+            headers: { 'Authorization': 'Token 67683fffab1fc8dcd9fe5c66e6fa9a410c73a1cd' }
+        })
         .then(res => {
             console.log(res);
-            this.setState({ send: false })
-            this.setState({ modalVisible: false })
+            this.reset()
         })
         .catch( err => {
-            this.setState({ send: false })
+            // todo create validation errors...
             this.setState({ modalVisible: false })
             console.log(err);
         });
