@@ -21,7 +21,7 @@ proxy_dict = {
 
 push_service = FCMNotification(api_key="AAAAKtQGGKU:APA91bHgA0AjGOwTIborASxPY_FOES0S33sR0dv3JNpfRdi6YKu58O485XEIoL3Ibrgx7MUjYWtZFub2cxa-tlv9N8M8KJv-IewF4fzNAGAY8WX5tcpfbX5QOBOUlKHObb38qvjuMRah")
 
-registration_id = "3002724995a98ed4"
+registration_id = "eUfZANAyou0:APA91bFMuV93RNMWnCkCnsq7LYxgj9BTk-_zlLnbqumKi-8P_AzKVVrHLE9nctUr32UyxHv1nD-VpZwspqd0YTSDF_lEe272xMwpI7NnjByv0ztyS6zGEbY2qNAJVpx9R0M70ynQmVbQ"
 message_title = "Uber update"
 message_body = "Hi john, your customized news for today is ready"
 
@@ -43,6 +43,9 @@ class ReminderViewSet(viewsets.GenericViewSet,
     def perform_create(self, serializer):
         """ Create a new reminder"""
         print("TESD")
+        print(registration_id)
+        print(message_title)
+        print(message_body)
         result = push_service.notify_single_device(registration_id=registration_id, message_title=message_title, message_body=message_body)
         print(result)
 
