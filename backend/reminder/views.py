@@ -8,6 +8,24 @@ from django.http import HttpResponse
 from reminder import serializers
 
 import json
+from django.db import connections
+from django.db.migrations.loader import MigrationLoader
+
+from pyfcm import FCMNotification
+
+proxy_dict = {
+          "http"  : "http://127.0.0.1",
+          "https" : "http://127.0.0.1",
+          "http"  : "http://10.0.2.2:8000/"
+        }
+
+push_service = FCMNotification(api_key="AAAAKtQGGKU:APA91bHgA0AjGOwTIborASxPY_FOES0S33sR0dv3JNpfRdi6YKu58O485XEIoL3Ibrgx7MUjYWtZFub2cxa-tlv9N8M8KJv-IewF4fzNAGAY8WX5tcpfbX5QOBOUlKHObb38qvjuMRah")
+
+registration_id = "3002724995a98ed4"
+message_title = "Uber update"
+message_body = "Hi john, your customized news for today is ready"
+
+from fcm_django.models import FCMDevice
 
 class ReminderViewSet(viewsets.GenericViewSet,
                      mixins.ListModelMixin,
@@ -25,12 +43,18 @@ class ReminderViewSet(viewsets.GenericViewSet,
     def perform_create(self, serializer):
         """ Create a new reminder"""
         print("TESD")
-        self.test_lol()
-        return HttpResponse("123")
+        result = push_service.notify_single_device(registration_id=registration_id, message_title=message_title, message_body=message_body)
+        print(result)
+
+        # self.test_lol()
+        # return HttpResponse("123")
         # serializer.save(user=self.request.user)
 
-    def test_lol(self):
-        print("!$#@$")
+    # def test_lol(self):
+    #     device = FCMDevice.objects.all().first()
+    #     device.send_message("Title", "Message")
+
+    #     print("!$#@$")
 
     # def perform_update(self, serializer):
     #     """Create a new ingredient"""
