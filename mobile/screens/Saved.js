@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import axios from 'axios';
+import Icon from 'react-native-vector-icons/Ionicons'
 
 import {RkCard, RkTheme} from 'react-native-ui-kitten';
 
@@ -12,11 +13,17 @@ RkTheme.setType('RkCard', 'lol', {
     }
   });
 
+  RkTheme.setType('rkCardFooter', 'plz', {
+    paddingVertical: 0, 
+    paddingHorizontal: 0
+  });
+
 import {
     View,
     Text,
     StyleSheet,
-    ListView
+    ListView,
+    ScrollView
 } from "react-native";
 
 
@@ -52,23 +59,48 @@ class Saved extends Component {
         return (<Text>{rowData}</Text>);
      }
 
+    submit = () => {
+    };
+
+
+    reset = () => {
+
+    };
+
     render() {
         contents = this.state.reminders.map(function (item) {
             return (
               <View key={item.id}>
-                <RkCard kType='lol' style={card}>
-                    <View rkCardContent>
+                <RkCard kType='lol'>
+                    <View rkCardContent style={styles.rkCardFooter}>
                         <Text>{item.name} {item.date}</Text>
                     </View>
+                    <View rkCardFooter kType='plz' style={styles.rkCardFooter}>
+                            <Icon.Button 
+                                name="ios-close" 
+                                size={25} 
+                                backgroundColor="#ffffff" 
+                                color="#808080"
+                                onPress={ () => this.reset() }
+                                />
+                            <Icon.Button
+                                name="ios-checkmark"
+                                size={25}
+                                backgroundColor="#ffffff"
+                                color="#A9A9A9"
+                                onPress={ () => this.submit() }
+                                />
+                </View>
                 </RkCard>
+
               </View>
             );
          });
 
         return (
-            <View style={styles.container}>
+            <ScrollView>
                 {contents}
-            </View>
+            </ScrollView>
         );
     }
 }
@@ -79,9 +111,12 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center'
+    },
+    rkCardFooter: { 
+        paddingHorizontal: 20,
+        marginBottom: -20
     }
 });
-
 
 const card = StyleSheet.create({
     borderBottomLeftRadius: 10,
