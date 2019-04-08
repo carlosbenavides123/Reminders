@@ -1,9 +1,9 @@
 from rest_framework import viewsets, mixins
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
-
+from rest_framework.request import Request
 from core.models import Reminder
-from django.http import HttpResponse
+from django.http import HttpResponse,request
 
 from reminder import serializers
 
@@ -54,14 +54,40 @@ class ReminderViewSet(viewsets.GenericViewSet,
     def perform_create(self, serializer):
         """ Create a new reminder"""
         serializer.save(user=self.request.user)
-        scheduler.add_job(self.job_function, 'cron', month=4, day=7, hour=21, minute=12, timezone=timezone('US/Pacific'))
+        self.schedule_task(self.request.data)
 
-    def job_function(self):
-        print("dasds")
+    def schedule_task(self, data):
+        print(data['time'])
+        time = self.time_swap(data['time'])
+        date = self.day_swap(data['date'])
+        scheduler.add_job(self.job_function, 'cron', month=date[1], day=date[2], hour=time[0], minute=time[1], timezone=timezone('US/Pacific'),kwargs={'text':data['name']})
+
+    def job_function(self, text):
+        print(text)
 
     def perform_update(self, serializer):
         """Create a new ingredient"""
         serializers.save(user=self.request.user)
+
+    def time_swap(self, time):
+        if time == "Morning":
+            return [8, 0, 0]
+        elif time == "Afternoon":
+            return [12, 0]
+        elif time == "Evening":
+            return [16, 0]
+        else:
+            return time.split(':')
+
+    def day_swap(self, date):
+        if date == "Today":
+            today = datetime.datetime.today()
+            return [today.year, today.month, today.day]
+        elif date == "Tomorrow":
+            today = datetime.datetime.today() + datetime.timedelta(days=1)
+            return [today.year, today.month, today.day]
+        else:
+            return date.split(',')
 
 def tick(text):
     print(text + '! The time is: %s' % datetime.now())
@@ -79,9 +105,7 @@ print('Press Ctrl+{0} to exit'.format('Break' if os.name == 'nt' else 'C'))
 
 def pause():
     scheduler.pause()
-    print("PAUSE")
     scheduler.add_job(resume, trigger='cron', second='*/5')
 def resume():    
     scheduler.resume()
-    print(RESUME)
     scheduler.add_job(pause, trigger='cron', second='*/5')
