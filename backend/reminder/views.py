@@ -23,6 +23,8 @@ proxy_dict = {
           "http"  : "http://10.0.2.2:8000/"
         }
 
+import requests
+
 push_service = FCMNotification(api_key="AAAAKtQGGKU:APA91bHgA0AjGOwTIborASxPY_FOES0S33sR0dv3JNpfRdi6YKu58O485XEIoL3Ibrgx7MUjYWtZFub2cxa-tlv9N8M8KJv-IewF4fzNAGAY8WX5tcpfbX5QOBOUlKHObb38qvjuMRah")
 
 registration_id = "eUfZANAyou0:APA91bFMuV93RNMWnCkCnsq7LYxgj9BTk-_zlLnbqumKi-8P_AzKVVrHLE9nctUr32UyxHv1nD-VpZwspqd0YTSDF_lEe272xMwpI7NnjByv0ztyS6zGEbY2qNAJVpx9R0M70ynQmVbQ"
@@ -60,10 +62,31 @@ class ReminderViewSet(viewsets.GenericViewSet,
         print(data['time'])
         time = self.time_swap(data['time'])
         date = self.day_swap(data['date'])
-        scheduler.add_job(self.job_function, 'cron', month=date[1], day=date[2], hour=time[0], minute=time[1], timezone=timezone('US/Pacific'),kwargs={'text':data['name']})
+        scheduler.add_job(self.job_function, 'cron', year=date[0], month=date[1], day=date[2], hour=time[0], minute=time[1], timezone=timezone('US/Pacific'),kwargs={'text':data['name']})
 
     def job_function(self, text):
+        apikey = "key=AAAAKtQGGKU:APA91bHgA0AjGOwTIborASxPY_FOES0S33sR0dv3JNpfRdi6YKu58O485XEIoL3Ibrgx7MUjYWtZFub2cxa-tlv9N8M8KJv-IewF4fzNAGAY8WX5tcpfbX5QOBOUlKHObb38qvjuMRah"
+        headers = {
+            "content-type": "application/json", 
+            "Authorization": apikey
+       }
+
+        payload = {  
+                    "to": "cDGl0w_Qv9k:APA91bH5XxTOSc2Sb1w4AJ54e6yWKF4SMTHJSU3i_yG_xZ3rbI_xjSxDYkknBZcqsaCWCaObaqmRBlZmClEn7VeE0XH4bIaZnQx8RRuSKN22A_thY4iV8dY8s5VtJNV6mfgwbQ6-zw4K",
+                    "priority": "high",
+                    "notification" : {
+                        "body": "Reminder!",
+                        "title" : text,
+                        "click_action":"FCM_PLUGIN_ACTIVITY"
+                    }
+                }
+
         print(text)
+        print(json.dumps(payload))
+        print(headers)
+        r = requests.post('https://fcm.googleapis.com/fcm/send', data=json.dumps(payload), headers=headers)
+        print(r)
+        print(r.status_code)
 
     def perform_update(self, serializer):
         """Create a new ingredient"""
