@@ -1,0 +1,43 @@
+version: "3"
+
+services:
+  app:
+    labels:
+      com.example.service: "web"
+      com.example.description: "Use for the main web process"
+    build:
+      context: .
+    environment:
+      PRODUCTION: 'true'
+    expose:
+      - "5959"
+    logging:
+      driver: "json-file"      
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./backend:/backend
+    command: >
+      sh -c "python manage.py wait_for_db && 
+             python manage.py migrate &&
+             python manage.py runserver 0.0.0.0:8000"
+    environment:
+      - DB_HOST=db
+      - DB_NAME=backend
+      - DB_USER=${DB_USERNAME}
+      - DB_PASS=${DB_PASSWORD}
+      - GOOGLE_API_KEY=${google_api_key}
+      - YELP_API_KEY=${yelp_api_key}
+    depends_on:
+      - db
+
+  nginx:
+    restart: always
+    container_name: nginx_server
+    build:
+      context: ./nginx/
+      dockerfile: Dockerfile
+    depends_on:
+      - app
+    ports:
+      - "0.0.0.0:80:80"

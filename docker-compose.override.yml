@@ -1,0 +1,20 @@
+services:
+  app:
+    labels:
+      com.example.service: "web"
+      com.example.description: "Use for the main web process"
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: bookme_django_web:1.0
+    depends_on:
+      - db
+    command: sh -c "python manage.py wait_for_db"
+    ports:
+      - "8000:8000"
+    environment:
+      PRODUCTION: 'false'
+    logging:
+      driver: "json-file"
+    volumes:
+      - ./bookme:/app
