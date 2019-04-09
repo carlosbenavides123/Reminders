@@ -22,6 +22,8 @@ import Modal from "react-native-modal";
 import ExtraDimensions from 'react-native-extra-dimensions-android';
 import axios from 'axios';
 
+import DeviceInfo from 'react-native-device-info';
+
 // when input state is not null...
 RkTheme.setType('RkTextInput', 'progress', {
     input: {
@@ -139,6 +141,8 @@ class Create extends Component {
 
     submit = () => {
         this.setState({ modalVisible: true })
+        var deviceId = DeviceInfo.getUniqueID();
+        console.log(deviceId)
         // this.setState({ send: true })
     };
 
@@ -150,7 +154,7 @@ class Create extends Component {
             "time": this.state.time
         }
 
-        axios.post(`http://10.0.2.2:8000/api/reminder/reminder/`, data, {
+        axios.post(`http://10.0.2.3:8000/api/reminder/reminder/`, data, {
             headers: { 'Authorization': 'Token 67683fffab1fc8dcd9fe5c66e6fa9a410c73a1cd' }
         })
         .then(res => {
