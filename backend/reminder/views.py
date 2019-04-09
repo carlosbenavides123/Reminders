@@ -11,34 +11,17 @@ import json
 from django.db import connections
 from django.db.migrations.loader import MigrationLoader
 
-from pyfcm import FCMNotification
-
 import time as time_module
 from datetime import datetime
 from datetime import timedelta
 
-proxy_dict = {
-          "http"  : "http://127.0.0.1",
-          "https" : "http://127.0.0.1",
-          "http"  : "http://10.0.2.2:8000/"
-        }
-
 import requests
 
-push_service = FCMNotification(api_key="AAAAKtQGGKU:APA91bHgA0AjGOwTIborASxPY_FOES0S33sR0dv3JNpfRdi6YKu58O485XEIoL3Ibrgx7MUjYWtZFub2cxa-tlv9N8M8KJv-IewF4fzNAGAY8WX5tcpfbX5QOBOUlKHObb38qvjuMRah")
-
-registration_id = "eUfZANAyou0:APA91bFMuV93RNMWnCkCnsq7LYxgj9BTk-_zlLnbqumKi-8P_AzKVVrHLE9nctUr32UyxHv1nD-VpZwspqd0YTSDF_lEe272xMwpI7NnjByv0ztyS6zGEbY2qNAJVpx9R0M70ynQmVbQ"
-message_title = "Uber update"
-message_body = "Hi john, your customized news for today is ready"
-
-from fcm_django.models import FCMDevice
 
 from pytz import timezone
-from apscheduler.schedulers.blocking import BlockingScheduler
 from apscheduler.schedulers.background import BackgroundScheduler
 import os, time
 
-sched = BlockingScheduler()
 
 class ReminderViewSet(viewsets.GenericViewSet,
                      mixins.ListModelMixin,
@@ -81,12 +64,7 @@ class ReminderViewSet(viewsets.GenericViewSet,
                     }
                 }
 
-        print(text)
-        print(json.dumps(payload))
-        print(headers)
         r = requests.post('https://fcm.googleapis.com/fcm/send', data=json.dumps(payload), headers=headers)
-        print(r)
-        print(r.status_code)
 
     def perform_update(self, serializer):
         """Create a new ingredient"""

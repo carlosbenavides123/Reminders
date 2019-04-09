@@ -42,7 +42,8 @@ class Saved extends Component {
                 'Authorization': 'Token 67683fffab1fc8dcd9fe5c66e6fa9a410c73a1cd'
             }
         };
-        axios.get(`http://10.0.2.2:8000/api/reminder/reminder/`, config)
+
+        axios.get(`http://104.248.184.147:8000/api/reminder/reminder/`, config)
         .then(res => {
             this.setState({reminders: res.data})
             console.log(this.state.reminders)

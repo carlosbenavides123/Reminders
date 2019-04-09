@@ -154,7 +154,7 @@ class Create extends Component {
             "time": this.state.time
         }
 
-        axios.post(`http://10.0.2.3:8000/api/reminder/reminder/`, data, {
+        axios.post(`http://104.248.184.147:8000/api/reminder/reminder/`, data, {
             headers: { 'Authorization': 'Token 67683fffab1fc8dcd9fe5c66e6fa9a410c73a1cd' }
         })
         .then(res => {
