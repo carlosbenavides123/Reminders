@@ -117,12 +117,18 @@ export default createAppContainer(createBottomTabNavigator({
     navigationOptions: {
       tabBarLabel: 'Create a reminder...',
       tabBarIcon: ({ tintColor }) => (
-        <Icon name ="ios-search" color={tintColor} size={24}/>
+        <Icon name ="md-create" color={tintColor} size={24}/>
       )
     }
   },
   Saved:{
-    screen: Saved
+    screen: Saved,
+    navigationOptions: {
+      tabBarLabel: 'My reminders',
+      tabBarIcon: ({ tintColor }) => (
+        <Icon name ="ios-search" color={tintColor} size={24}/>
+      )
+    }
   }
 }));
 

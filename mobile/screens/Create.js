@@ -227,6 +227,7 @@ class Create extends Component {
                      onConfirm={this._handleTimePicked}
                      onCancel={this._hideTimePicker}
                      mode="time"
+                     is24Hour={false}
                  />
 
                 {this.renderModal()}
