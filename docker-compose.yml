@@ -10,6 +10,10 @@ services:
     command: gunicorn app.wsgi -b 0.0.0.0:8000
     depends_on:
       - postgres
+    environment:
+      DB_USERNAME: ${DB_USERNAME}
+      DB_PASSWORD: ${DB_PASSWORD}
+      SECRET_KEY: ${SECRET_KEY}
 
   postgres:
     build: ./postgres
