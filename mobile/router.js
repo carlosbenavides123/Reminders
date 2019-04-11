@@ -18,6 +18,13 @@ const headerStyle = {
 }
 
 export const SignedOut = createStackNavigator({
+      SignIn: {
+        screen: SignIn,
+        navigationOptions: {
+            title: "Sign In",
+            headerStyle
+        }
+    },
     SignUp: {
         screen: SignUp,
         navigationOptions: {
@@ -25,13 +32,6 @@ export const SignedOut = createStackNavigator({
             headerStyle
         }
     },
-    SignIn: {
-        screen: SignIn,
-        navigationOptions: {
-            title: "Sign In",
-            headerStyle
-        }
-    }
 });
 
 export const SignedIn = createBottomTabNavigator({
@@ -55,18 +55,18 @@ export const SignedIn = createBottomTabNavigator({
     }
 });
 
-export const createAppContainer = (signedIn = false) => {
+export const yes = (loggedIn = false) => {
     return createSwitchNavigator(
       {
-        SignedIn: {
-          screen: SignedIn
-        },
         SignedOut: {
           screen: SignedOut
+        },
+        SignedIn:{
+          screen: SignedIn
         }
       },
       {
-        initialRouteName: signedIn ? "SignedIn" : "SignedOut"
+        initialRouteName: loggedIn ? "SignedOut" : "SignedIn"
       }
     );
 };

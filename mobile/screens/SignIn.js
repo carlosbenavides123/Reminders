@@ -15,21 +15,26 @@ import {
   Dimensions,
   Button
 } from "react-native";
+import Icon from 'react-native-vector-icons/Ionicons'
+import {RkCard, RkTheme, RkTextInput, RkButton} from 'react-native-ui-kitten';
 
 export default ({ navigation }) => (
   <View style={{ paddingVertical: 20 }}>
-    <Card title="SIGN IN">
-      <FormLabel>Email</FormLabel>
-      <FormInput placeholder="Email address..." />
-      <FormLabel>Password</FormLabel>
-      <FormInput secureTextEntry placeholder="Password..." />
+    <RkCard title="SIGN IN">
+      <RkTextInput label={<Icon name={'ios-person'}/>} rkType='rounded' label='Email'/>
+      <RkTextInput label={<Icon name={'md-lock'}/>} rkType='rounded' label='Password'/>
+      <RkTextInput label={<Icon name={'md-lock'}/>} rkType='rounded' label='Confirm Password...'/>
 
       <Button
         buttonStyle={{ marginTop: 20 }}
-        backgroundColor="#03A9F4"
-        title="SIGN IN"
-        onPress={() => onSignIn().then(() => navigation.navigate('SignedIn'))}
+        title="SIGN UP"
+        onPress={() => navigation.navigate("SignUp")}
       />
-    </Card>
+      {/* <Button
+        buttonStyle={{ marginTop: 20 }}
+        title="Sign In"
+        onPress={navigation.navigate("SignUp")}
+      /> */}
+    </RkCard>
   </View>
 );

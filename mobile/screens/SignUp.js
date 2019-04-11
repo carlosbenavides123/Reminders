@@ -16,6 +16,7 @@ import {
   Dimensions,
   Button
 } from "react-native";
+import Icon from 'react-native-vector-icons/Ionicons'
 
 export default ({ navigation }) => (
   <View style={{ paddingVertical: 20 }}>
@@ -26,16 +27,8 @@ export default ({ navigation }) => (
 
       <Button
         buttonStyle={{ marginTop: 20 }}
-        backgroundColor="#03A9F4"
-        title="SIGN UP"
-        onPress={() => onSignIn().then(() => navigation.navigate("SignedIn"))}
-      />
-      <Button
-        buttonStyle={{ marginTop: 20 }}
-        backgroundColor="transparent"
-        textStyle={{ color: "#bcbec1" }}
         title="Sign In"
-        onPress={() => alert("go to sign in screen")}
+        onPress={() => navigation.navigate("SignIn")}
       />
     </RkCard>
   </View>

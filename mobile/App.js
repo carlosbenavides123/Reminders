@@ -2,7 +2,7 @@ import React, {Component} from "react";
 
 import {Platform, StyleSheet, Text, View, AppRegistry} from "react-native";
 
-import {createAppContainer} from 'react-navigation';
+import {createBottomTabNavigator,createAppContainer} from 'react-navigation';
 
 import { RemoteMessage } from 'react-native-firebase';
 import { Notification, NotificationOpen }  from 'react-native-firebase';
@@ -11,6 +11,7 @@ import firebase from 'react-native-firebase';
 
 import bgMessaging from './bgMessaging'; // <-- Import the file you created in (2)
 
+import { yes } from './router';
 import { isSignedIn } from "./auth";
 
 // Current main application
@@ -48,7 +49,7 @@ firebase.messaging().getToken()
     } 
   });
 
-export default class App extends React.Component {
+class App extends React.Component {
 
   state = {
     signedIn: false,
@@ -112,7 +113,8 @@ export default class App extends React.Component {
     //   return null;
     // }
 
-    const Layout = createAppContainer(signedIn);
+    const Layout = createAppContainer(yes(true));
     return <Layout />;
   }
 }
+export default App;
