@@ -1,11 +1,8 @@
 import React, {Component} from "react";
 
-import {Platform, StyleSheet, Text, View, AppRegistry} from 'react-native';
+import {Platform, StyleSheet, Text, View, AppRegistry} from "react-native";
 
-import {createBottomTabNavigator,createAppContainer} from 'react-navigation';
-
-
-
+import {createAppContainer} from 'react-navigation';
 
 import { RemoteMessage } from 'react-native-firebase';
 import { Notification, NotificationOpen }  from 'react-native-firebase';
@@ -14,7 +11,7 @@ import firebase from 'react-native-firebase';
 
 import bgMessaging from './bgMessaging'; // <-- Import the file you created in (2)
 
-import { createRootNavigator } from "./router";
+import { isSignedIn } from "./auth";
 
 // Current main application
 AppRegistry.registerComponent('mobile', () => bootstrap);
@@ -51,7 +48,7 @@ firebase.messaging().getToken()
     } 
   });
 
-class App extends React.Component {
+export default class App extends React.Component {
 
   state = {
     signedIn: false,
@@ -73,9 +70,9 @@ class App extends React.Component {
           const action = notificationOpen.action;
           // Get information about the notification that was opened
           const notification = notificationOpen.notification;  
-        }
-      });
-  });
+          }
+        });
+    });
 
     this.notificationDisplayedListener = firebase.notifications().onNotificationDisplayed((notification) => {
       // Process your notification as required
@@ -92,9 +89,9 @@ class App extends React.Component {
         console.log(this.messageListener)
       });
 
-    isSignedIn()
-      .then(res => this.setState({ signedIn: res, checkedSignIn: true}))
-      .catch(() => alert("An error occured"));
+    // isSignedIn()
+    //   .then(res => this.setState({ signedIn: res, checkedSignIn: true}))
+    //   .catch(() => alert("An error occured"));
   }
 
   componentWillUnmount() {
@@ -108,15 +105,14 @@ class App extends React.Component {
 
   }
 
-
   render() {
     const { checkedSignIn, signedIn } = this.state;
+    console.log(signedIn);
+    // if (!checkedSignIn) {
+    //   return null;
+    // }
 
-    if (!checkedSignIn) {
-      return null;
-    }
-
-    const Layout = createRootNavigator(signedIn);
+    const Layout = createAppContainer(signedIn);
     return <Layout />;
   }
 }

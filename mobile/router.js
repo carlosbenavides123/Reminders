@@ -1,7 +1,11 @@
-import React, {Component} from "react";
+import React from "react";
 import { Platform, StatusBar } from "react-native";
-import {createBottomTabNavigator, StackNavigator, SwitchNavigator} from 'react-navigation';
-import Icon from 'react-native-vector-icons/Ionicons';
+import {
+    createStackNavigator,
+    createBottomTabNavigator,
+    createSwitchNavigator
+  } from "react-navigation";
+import Icon from "react-native-vector-icons/Ionicons";
 
 
 import Create from "./screens/Create";
@@ -13,7 +17,7 @@ const headerStyle = {
     marginTop: Platform.OS === "android" ? StatusBar.currentHeight : 0
 }
 
-export const SignedOut = StackNavigator({
+export const SignedOut = createStackNavigator({
     SignUp: {
         screen: SignUp,
         navigationOptions: {
@@ -34,7 +38,7 @@ export const SignedIn = createBottomTabNavigator({
     Create:{
       screen: Create,
       navigationOptions: {
-        tabBarLabel: 'Create a reminder...',
+        tabBarLabel: "Create a reminder...",
         tabBarIcon: ({ tintColor }) => (
           <Icon name ="md-create" color={tintColor} size={24}/>
         )
@@ -43,45 +47,26 @@ export const SignedIn = createBottomTabNavigator({
     Saved:{
       screen: Saved,
       navigationOptions: {
-        tabBarLabel: 'My reminders',
+        tabBarLabel: "My reminders",
         tabBarIcon: ({ tintColor }) => (
           <Icon name ="ios-search" color={tintColor} size={24}/>
         )
       }
     }
 });
-  
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: '#F5FCFF',
-    },
-    welcome: {
-        fontSize: 20,
-        textAlign: 'center',
-        margin: 10,
-    },
-    instructions: {
-        textAlign: 'center',
-        color: '#333333',
-        marginBottom: 5,
-    },
-});
-  
-export const createRootNavigator = (signedIn = false) => {
-    return SwitchNavigator(
-        {
-            SignedIn: {
-                screen: SignedIn,
-            },
-            SignedOut: {
-                screen: SignedOut
-            }
+
+export const createAppContainer = (signedIn = false) => {
+    return createSwitchNavigator(
+      {
+        SignedIn: {
+          screen: SignedIn
         },
-        {
-            initalRouteName: signedIn ? "SignedIn": "SignedOut"
+        SignedOut: {
+          screen: SignedOut
         }
-    )
-}
+      },
+      {
+        initialRouteName: signedIn ? "SignedIn" : "SignedOut"
+      }
+    );
+};
