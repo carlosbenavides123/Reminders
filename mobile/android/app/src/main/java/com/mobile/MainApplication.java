@@ -5,6 +5,7 @@ import android.app.Application;
 import com.facebook.react.ReactApplication;
 import io.invertase.firebase.RNFirebasePackage;
 import io.invertase.firebase.messaging.RNFirebaseMessagingPackage; // <-- Add this line
+import io.invertase.firebase.notifications.RNFirebaseNotificationsPackage;
 import com.learnium.RNDeviceInfo.RNDeviceInfo;
 import ca.jaysoo.extradimensions.ExtraDimensionsPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
@@ -34,7 +35,8 @@ public class MainApplication extends Application implements ReactApplication {
             new ExtraDimensionsPackage(),
             new VectorIconsPackage(),
             new RNGestureHandlerPackage(),
-            new RNFirebaseMessagingPackage() // <-- Add this line
+            new RNFirebaseMessagingPackage(), // <-- Add this line
+            new RNFirebaseNotificationsPackage()
       );
     }
 
