@@ -1,40 +1,88 @@
-import React from "react";
-import { onSignIn } from "../auth";
+import React, {Component} from 'react';
 import {
-  View,
-  Text,
   StyleSheet,
-  SafeAreaView,
   TextInput,
-  Platform,
+  View,
   StatusBar,
-  Picker,
-  TouchableHighlight,
-  tintColor,
-  TouchableOpacity,
-  Dimensions,
+  Image,
+  Text,
   Button
-} from "react-native";
-import Icon from 'react-native-vector-icons/Ionicons'
-import {RkCard, RkTheme, RkTextInput, RkButton} from 'react-native-ui-kitten';
+} from 'react-native';
+
+import {RkButton, RkTextInput, RkStyleSheet, RkText} from 'react-native-ui-kitten';
+import { Hoshi } from 'react-native-textinput-effects';
 
 export default ({ navigation }) => (
-  <View style={{ paddingVertical: 20 }}>
-    <RkCard title="SIGN IN">
-      <RkTextInput label={<Icon name={'ios-person'}/>} rkType='rounded' label='Email'/>
-      <RkTextInput label={<Icon name={'md-lock'}/>} rkType='rounded' label='Password'/>
-      <RkTextInput label={<Icon name={'md-lock'}/>} rkType='rounded' label='Confirm Password...'/>
+  <View style={{flex: 1}}>
+        <View style={styles.container}>
 
-      <Button
-        buttonStyle={{ marginTop: 20 }}
-        title="SIGN UP"
-        onPress={() => navigation.navigate("SignUp")}
-      />
-      {/* <Button
-        buttonStyle={{ marginTop: 20 }}
-        title="Sign In"
-        onPress={navigation.navigate("SignUp")}
-      /> */}
-    </RkCard>
-  </View>
+      <View>
+        <RkText style={styles.title}>
+          SIGN IN
+        </RkText>
+      </View>
+
+      <View style={{minHeight: 185}}>
+        <Hoshi
+          label={'Email'}
+          borderColor={'#1F45FC'}
+          borderHeight={1}
+          inputPadding={16}
+          inputStyle={{ color: '#5177FF' }}
+        />
+        <Hoshi
+          label={'Password'}
+          borderColor={'#1F45FC'}
+          borderHeight={1}
+          inputPadding={16}
+          secureTextEntry={true}
+        />
+        </View>
+        <View>
+            <Button innerStyle={[{fontSize: 20}]}
+                     title='Login!'
+                     color='#C92228'
+                      />
+          </View>
+
+    </View>
+    </View>
 );
+
+let styles = StyleSheet.create({
+  container:{
+    paddingHorizontal: 50,
+    justifyContent: 'space-around',
+    flex: 1
+  },
+  title:{
+    fontSize: 42,
+    textAlign: 'center'
+  },
+  inputLabel:{
+    paddingBottom: 15
+  },
+  inputContainer:{
+    marginTop: 40
+  },
+  input:{
+    fontSize: 20,
+  },
+  loginScreenButton:{
+    marginRight:40,
+    marginLeft:40,
+   marginTop:10,
+    paddingTop:10,
+    paddingBottom:10,
+    backgroundColor:'#1E6738',
+    borderRadius:10,
+    borderWidth: 1,
+    borderColor: '#fff'
+  },
+  loginText:{
+      color:'#fff',
+      textAlign:'center',
+      paddingLeft : 10,
+      paddingRight : 10
+  }
+});
