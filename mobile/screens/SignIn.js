@@ -6,7 +6,9 @@ import {
   StatusBar,
   Image,
   Text,
-  Button
+  Button,
+  TouchableOpacity,
+  TouchableNativeFeedback
 } from 'react-native';
 
 import {RkButton, RkTextInput, RkStyleSheet, RkText} from 'react-native-ui-kitten';
@@ -14,8 +16,13 @@ import { Hoshi } from 'react-native-textinput-effects';
 
 export default ({ navigation }) => (
   <View style={{flex: 1}}>
-        <View style={styles.container}>
+    <TouchableNativeFeedback onPress={() => navigation.navigate("SignUp")}> 
+      <Text style = {styles.close}>
+          Register a account!
+      </Text>
+    </TouchableNativeFeedback >
 
+    <View style={styles.container}>
       <View>
         <RkText style={styles.title}>
           SIGN IN
@@ -71,7 +78,7 @@ let styles = StyleSheet.create({
   loginScreenButton:{
     marginRight:40,
     marginLeft:40,
-   marginTop:10,
+    marginTop:10,
     paddingTop:10,
     paddingBottom:10,
     backgroundColor:'#1E6738',
@@ -84,5 +91,13 @@ let styles = StyleSheet.create({
       textAlign:'center',
       paddingLeft : 10,
       paddingRight : 10
+  },  
+  close: {
+    margin: 5,
+    position: "absolute",
+    top: 0,
+    right: 10,
+    height: 25,
+    color: "#A9A9A9"
   }
 });

@@ -20,16 +20,16 @@ const headerStyle = {
 export const SignedOut = createStackNavigator({
       SignIn: {
         screen: SignIn,
+        headerMode: 'none',
         navigationOptions: {
-            title: "Sign In",
-            headerStyle
+          headerVisible: false,
+          header : null   
         }
     },
     SignUp: {
         screen: SignUp,
         navigationOptions: {
             title: "Sign Up",
-            headerStyle
         }
     },
 });
