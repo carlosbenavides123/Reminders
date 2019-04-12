@@ -36,7 +36,7 @@ post_to_db = () => {
   axios.post(`http://104.248.184.147:8000/api/user/token/`, data)
   .then(res => {
       console.log(res);
-      // navigation.navigate("SignUp")
+      this.props.navigation.navigate('Create')
   })
   .catch( err => {
       console.log(err);
@@ -44,10 +44,10 @@ post_to_db = () => {
 }
 
 render(){
-  
+
   return(
     <View style={{flex: 1}}>
-      <TouchableNativeFeedback onPress={() => navigation.navigate("SignUp")}> 
+      <TouchableNativeFeedback onPress={() => this.props.navigation.navigate('SignUp')}> 
         <Text style = {styles.close}>
             Register a account!
         </Text>
