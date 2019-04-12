@@ -14,47 +14,83 @@ import {
 import {RkButton, RkTextInput, RkStyleSheet, RkText} from 'react-native-ui-kitten';
 import { Hoshi } from 'react-native-textinput-effects';
 
-export default ({ navigation }) => (
-  <View style={{flex: 1}}>
-    <TouchableNativeFeedback onPress={() => navigation.navigate("SignUp")}> 
-      <Text style = {styles.close}>
-          Register a account!
-      </Text>
-    </TouchableNativeFeedback >
+import axios from 'axios';
 
-    <View style={styles.container}>
-      <View>
-        <RkText style={styles.title}>
-          SIGN IN
-        </RkText>
-      </View>
+export default class SignIn extends Component{
 
-      <View style={{minHeight: 185}}>
-        <Hoshi
-          label={'Email'}
-          borderColor={'#1F45FC'}
-          borderHeight={1}
-          inputPadding={16}
-          inputStyle={{ color: '#5177FF' }}
-        />
-        <Hoshi
-          label={'Password'}
-          borderColor={'#1F45FC'}
-          borderHeight={1}
-          inputPadding={16}
-          secureTextEntry={true}
-        />
-        </View>
+  constructor(props) {
+    super(props)
+    this.state = {
+        email: "",
+        password: "",
+        token: ""
+    };
+}
+
+post_to_db = () => {
+  var data = {
+      "email": this.state.email,
+      "password": this.state.password
+  }
+
+  axios.post(`http://104.248.184.147:8000/api/user/token/`, data)
+  .then(res => {
+      console.log(res);
+      // navigation.navigate("SignUp")
+  })
+  .catch( err => {
+      console.log(err);
+  });
+}
+
+render(){
+  
+  return(
+    <View style={{flex: 1}}>
+      <TouchableNativeFeedback onPress={() => navigation.navigate("SignUp")}> 
+        <Text style = {styles.close}>
+            Register a account!
+        </Text>
+      </TouchableNativeFeedback >
+
+      <View style={styles.container}>
         <View>
-            <Button innerStyle={[{fontSize: 20}]}
-                     title='Login!'
-                     color='#C92228'
-                      />
-          </View>
+          <RkText style={styles.title}>
+            SIGN IN
+          </RkText>
+        </View>
 
-    </View>
-    </View>
-);
+        <View style={{minHeight: 185}}>
+          <Hoshi
+            label={'Email'}
+            borderColor={'#1F45FC'}
+            borderHeight={1}
+            inputPadding={16}
+            inputStyle={{ color: '#5177FF' }}
+            onChangeText={(text) => this.setState({email: text})}
+          />
+          <Hoshi
+            label={'Password'}
+            borderColor={'#1F45FC'}
+            borderHeight={1}
+            inputPadding={16}
+            secureTextEntry={true}
+            onChangeText={(text) => this.setState({password: text})}
+          />
+          </View>
+          <View>
+              <Button innerStyle={[{fontSize: 20}]}
+                      title='Login!'
+                      color='#C92228'
+                      onPress={ () => this.post_to_db()}
+                        />
+            </View>
+
+      </View>
+      </View>
+    )
+  }
+};
 
 let styles = StyleSheet.create({
   container:{
