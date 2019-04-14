@@ -15,6 +15,7 @@ import {RkButton, RkTextInput, RkStyleSheet, RkText} from 'react-native-ui-kitte
 import { Hoshi } from 'react-native-textinput-effects';
 
 import axios from 'axios';
+import deviceStorage from '../services/deviceStorage';
 
 export default class SignIn extends Component{
 
@@ -36,7 +37,9 @@ post_to_db = () => {
   axios.post(`http://104.248.184.147:8000/api/user/token/`, data)
   .then(res => {
       console.log(res);
-      this.props.navigation.navigate('Create')
+      console.log(res.data.token)
+      deviceStorage.saveItem("id_token", res.data.token);
+      // this.props.navigation.navigate('Create')
   })
   .catch( err => {
       console.log(err);

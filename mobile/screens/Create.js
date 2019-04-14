@@ -23,6 +23,7 @@ import ExtraDimensions from 'react-native-extra-dimensions-android';
 import axios from 'axios';
 
 import DeviceInfo from 'react-native-device-info';
+import deviceStorage from '../services/deviceStorage';
 
 // when input state is not null...
 RkTheme.setType('RkTextInput', 'progress', {
@@ -48,8 +49,8 @@ RkTheme.setType('RkCard', 'lol', {
   });
 
 class Create extends Component {
-    constructor() {
-        super()
+    constructor(props) {
+        super(props)
 
         this.state = {
             isDateVisible: false,
@@ -60,7 +61,17 @@ class Create extends Component {
             time: "Morning",
             text: "",
             modalVisible: false,
+            jwt: ''
         };
+        this.loadJWT = deviceStorage.loadJWT.bind(this);
+        this.loadJWT();
+
+        this.props.navigation.navigate('Map',
+            {
+                name: 'Anand',
+                mob : '90090'
+            }
+        );
     }
 
     _showDatePicker = () => this.setState({ isDateVisible: true });
@@ -143,7 +154,8 @@ class Create extends Component {
         this.setState({ modalVisible: true })
         var deviceId = DeviceInfo.getUniqueID();
         console.log(deviceId)
-        // this.setState({ send: true })
+        console.log(this.state.jwt);
+        this.setState({ send: true })
     };
 
     post_to_db = () => {
@@ -155,7 +167,7 @@ class Create extends Component {
         }
 
         axios.post(`http://104.248.184.147:8000/api/reminder/reminder/`, data, {
-            headers: { 'Authorization': 'Token 67683fffab1fc8dcd9fe5c66e6fa9a410c73a1cd' }
+            headers: { 'Authorization': 'Token ' + this.state.jwt }
         })
         .then(res => {
             console.log(res);
@@ -212,9 +224,8 @@ class Create extends Component {
       );
 
     render() {
-
         return (
-            <SafeAreaView style={{ flex: 1 }}>
+            <SafeAreaView style={{ flex: 1 }} screenProps={{jwt: this.state.jwt}}>
 
                 <DateTimePicker
                     isVisible={this.state.isDateVisible}

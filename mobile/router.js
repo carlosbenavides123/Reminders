@@ -45,7 +45,7 @@ export const SignedIn = createBottomTabNavigator({
       }
     },
     Saved:{
-      screen: Saved,
+      screen: props => <Saved {...props}/>,
       navigationOptions: {
         tabBarLabel: "My reminders",
         tabBarIcon: ({ tintColor }) => (
@@ -55,7 +55,7 @@ export const SignedIn = createBottomTabNavigator({
     }
 });
 
-export const yes = (loggedIn = false) => {
+export const yes = (jwt = '') => {
     return createSwitchNavigator(
       {
         SignedOut: {
@@ -66,7 +66,7 @@ export const yes = (loggedIn = false) => {
         }
       },
       {
-        initialRouteName: loggedIn ? "SignedOut" : "SignedIn"
+        initialRouteName: jwt ? "SignedIn" : "SignedOut"
       }
     );
 };
