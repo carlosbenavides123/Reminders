@@ -65,13 +65,6 @@ class Create extends Component {
         };
         this.loadJWT = deviceStorage.loadJWT.bind(this);
         this.loadJWT();
-
-        this.props.navigation.navigate('Map',
-            {
-                name: 'Anand',
-                mob : '90090'
-            }
-        );
     }
 
     _showDatePicker = () => this.setState({ isDateVisible: true });

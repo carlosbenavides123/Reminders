@@ -26,6 +26,19 @@ const deviceStorage = {
     }
   },
 
+  async getJWT() {
+    try {
+      const value = await AsyncStorage.getItem('id_token');
+      if (value !== null) {
+          return value;
+      } else {
+        return ''
+      }
+    } catch (error) {
+      console.log('AsyncStorage Error: ' + error.message);
+    }
+  },
+
   async deleteJWT() {
     try{
       await AsyncStorage.removeItem('id_token')

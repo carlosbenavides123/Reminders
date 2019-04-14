@@ -31,24 +31,19 @@ import {
 class Saved extends Component {
 
     constructor(props) {
-        console.log(props)
-        console.log("##################################333")
         super(props)
-        console.log(this.props);
-        console.log("##################################333")
         this.state = {
             reminders: [],
             jwt: ''
         }
-        this.loadJWT = deviceStorage.loadJWT.bind(this);
-        this.loadJWT();
+        this.state.jwt = this.props.jwt;
       }
 
     get_data_from_db = () => {
-
+        auth = "Token" + " " + String(this.state.jwt);
         var config = {
             headers: {
-                'Authorization': 'Token ' + this.state.jwt,
+                'Authorization': auth
             }
         };
 

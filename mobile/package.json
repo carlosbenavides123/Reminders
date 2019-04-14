@@ -10,6 +10,7 @@
   "dependencies": {
     "axios": "^0.18.0",
     "fs": "0.0.1-security",
+    "jwt-decode": "^2.2.0",
     "path": "^0.12.7",
     "react": "16.8.3",
     "react-native": "0.59.2",

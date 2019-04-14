@@ -6,7 +6,11 @@ import {
     createSwitchNavigator
   } from "react-navigation";
 import Icon from "react-native-vector-icons/Ionicons";
+var jwtDecode = require('jwt-decode');
 
+import deviceStorage from './services/deviceStorage';
+jwt = deviceStorage.getJWT();
+// jwt = jwtDecode(jwt)
 
 import Create from "./screens/Create";
 import Saved from "./screens/Saved";
@@ -36,7 +40,7 @@ export const SignedOut = createStackNavigator({
 
 export const SignedIn = createBottomTabNavigator({
     Create:{
-      screen: Create,
+      screen: props => <Create {...{lol:'lol'}}/>,
       navigationOptions: {
         tabBarLabel: "Create a reminder...",
         tabBarIcon: ({ tintColor }) => (
@@ -45,7 +49,7 @@ export const SignedIn = createBottomTabNavigator({
       }
     },
     Saved:{
-      screen: props => <Saved {...props}/>,
+      screen: props => <Saved {...{jwt: jwt._55}}/>,
       navigationOptions: {
         tabBarLabel: "My reminders",
         tabBarIcon: ({ tintColor }) => (
