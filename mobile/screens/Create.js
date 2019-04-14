@@ -60,6 +60,11 @@ class Create extends Component {
             time: "Morning",
             text: "",
             modalVisible: false,
+<<<<<<< Updated upstream
+=======
+            jwt: '',
+            android_id: ''
+>>>>>>> Stashed changes
         };
     }
 
@@ -92,6 +97,8 @@ class Create extends Component {
         var minutes = date.getMinutes();
         var ampm = hours >= 12 ? 'PM' : 'AM';
 
+        this.state.time = hours+":"+minutes
+
         hours = hours % 12;
         hours = hours ? hours : 12;
         minutes = minutes < 10 ? '0' + minutes : minutes;
@@ -99,8 +106,7 @@ class Create extends Component {
         var strTime = hours + ':' + minutes + ' ' + ampm;
 
         this.state.label_time = strTime;
-        this.state.time = hours+":"+minutes
-
+        console.log(this.state)
         this._hideTimePicker();
     };
     
@@ -153,6 +159,7 @@ class Create extends Component {
             "date": this.state.day,
             "time": this.state.time
         }
+        console.log(data);
 
         axios.post(`http://104.248.184.147:8000/api/reminder/reminder/`, data, {
             headers: { 'Authorization': 'Token 67683fffab1fc8dcd9fe5c66e6fa9a410c73a1cd' }

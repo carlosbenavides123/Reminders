@@ -12,15 +12,15 @@ from django.db import connections
 from django.db.migrations.loader import MigrationLoader
 
 import time as time_module
-from datetime import datetime
-from datetime import timedelta
+
+import os, time
+from datetime import datetime, date, time, timedelta
 
 import requests
 
 
 from pytz import timezone
 from apscheduler.schedulers.background import BackgroundScheduler
-import os, time
 
 
 class ReminderViewSet(viewsets.GenericViewSet,
@@ -82,11 +82,11 @@ class ReminderViewSet(viewsets.GenericViewSet,
 
     def day_swap(self, date):
         if date == "Today":
-            today = datetime.datetime.today()
+            today = datetime.today()
             return [today.year, today.month, today.day]
         elif date == "Tomorrow":
-            today = datetime.datetime.today() + datetime.timedelta(days=1)
-            return [today.year, today.month, today.day]
+            tomorrow = datetime.today() + timedelta(days=1)
+            return [tomorrow.year, tomorrow.month, tomorrow.day]
         else:
             return date.split(',')
 
