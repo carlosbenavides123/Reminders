@@ -13,6 +13,8 @@ import bgMessaging from './bgMessaging'; // <-- Import the file you created in (
 
 import { yes } from './router';
 import { isSignedIn } from "./auth";
+import { AsyncStorage } from 'react-native';
+import deviceStorage from './services/deviceStorage.js';
 
 // Current main application
 AppRegistry.registerComponent('mobile', () => bootstrap);
@@ -40,21 +42,33 @@ firebase.messaging().getToken()
   .then(fcmToken => {
     if (fcmToken) {
       // user has a device token
-      console.log("MADE IT HERE")
       console.log(fcmToken)
     } else {
       // user doesn't have a device token yet
       console.log("NO")
-
     } 
   });
 
 class App extends React.Component {
-
-  state = {
-    signedIn: false,
-    checkedSignIn: false
+  constructor() {
+    super();
+    this.state = {
+      jwt: '',
+      loading: true
+    }
+    
+    this.newJWT = this.newJWT.bind(this);
+    this.deleteJWT = deviceStorage.deleteJWT.bind(this);
+    this.loadJWT = deviceStorage.loadJWT.bind(this);
+    this.loadJWT();
   }
+
+  newJWT(jwt){
+    this.setState({
+      jwt: jwt
+    });
+  }  
+
 
   componentDidMount() {
     this.notificationOpenedListener = firebase.notifications().onNotificationOpened((notificationOpen) => {
@@ -85,8 +99,6 @@ class App extends React.Component {
 
     this.messageListener = firebase.messaging().onMessage((message) => {
         // Process your message as required
-        console.log("##########################################")
-
         console.log(this.messageListener)
       });
 
@@ -96,7 +108,6 @@ class App extends React.Component {
   }
 
   componentWillUnmount() {
-    console.log("##########################################")
     this.notificationDisplayedListener();
     this.notificationListener();
 
@@ -113,7 +124,7 @@ class App extends React.Component {
     //   return null;
     // }
 
-    const Layout = createAppContainer(yes(true));
+    const Layout = createAppContainer(yes(this.state.jwt));
     return <Layout />;
   }
 }

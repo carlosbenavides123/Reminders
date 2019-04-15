@@ -3,6 +3,7 @@ import axios from 'axios';
 import Icon from 'react-native-vector-icons/Ionicons'
 
 import {RkCard, RkTheme} from 'react-native-ui-kitten';
+import deviceStorage from '../services/deviceStorage';
 
 RkTheme.setType('RkCard', 'lol', {
     header: {
@@ -32,14 +33,17 @@ class Saved extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            reminders: []
+            reminders: [],
+            jwt: ''
         }
+        this.state.jwt = this.props.jwt;
       }
 
     get_data_from_db = () => {
+        auth = "Token" + " " + String(this.state.jwt);
         var config = {
             headers: {
-                'Authorization': 'Token 67683fffab1fc8dcd9fe5c66e6fa9a410c73a1cd'
+                'Authorization': auth
             }
         };
 

@@ -10,6 +10,7 @@
   "dependencies": {
     "axios": "^0.18.0",
     "fs": "0.0.1-security",
+    "jwt-decode": "^2.2.0",
     "path": "^0.12.7",
     "react": "16.8.3",
     "react-native": "0.59.2",
@@ -22,7 +23,10 @@
     "react-native-textinput-effects": "^0.5.1",
     "react-native-ui-kitten": "^3.1.2",
     "react-native-vector-icons": "^6.4.2",
-    "react-navigation": "^3.5.1"
+    "react-navigation": "^3.5.1",
+    "react-redux": "^7.0.1",
+    "redux": "^4.0.1",
+    "redux-axios-middleware": "^4.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.4.0",

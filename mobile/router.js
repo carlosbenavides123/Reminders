@@ -7,6 +7,22 @@ import {
   } from "react-navigation";
 import Icon from "react-native-vector-icons/Ionicons";
 
+import firebase from 'react-native-firebase';
+var token = '';
+firebase.messaging().getToken()
+  .then(fcmToken => {
+    if (fcmToken) {
+      token = fcmToken;
+      console.log("got token");
+    } else {
+      // user doesn't have a device token yet
+      console.log("NO")
+    } 
+  });
+
+
+import deviceStorage from './services/deviceStorage';
+jwt = deviceStorage.getJWT();
 
 import Create from "./screens/Create";
 import Saved from "./screens/Saved";
@@ -36,7 +52,7 @@ export const SignedOut = createStackNavigator({
 
 export const SignedIn = createBottomTabNavigator({
     Create:{
-      screen: Create,
+      screen: props => <Create {...{fcm: token, jwt: jwt._55}}/>,
       navigationOptions: {
         tabBarLabel: "Create a reminder...",
         tabBarIcon: ({ tintColor }) => (
@@ -45,7 +61,7 @@ export const SignedIn = createBottomTabNavigator({
       }
     },
     Saved:{
-      screen: Saved,
+      screen: props => <Saved {...{jwt: jwt._55}}/>,
       navigationOptions: {
         tabBarLabel: "My reminders",
         tabBarIcon: ({ tintColor }) => (
@@ -55,7 +71,7 @@ export const SignedIn = createBottomTabNavigator({
     }
 });
 
-export const yes = (loggedIn = false) => {
+export const yes = (jwt = '') => {
     return createSwitchNavigator(
       {
         SignedOut: {
@@ -66,7 +82,7 @@ export const yes = (loggedIn = false) => {
         }
       },
       {
-        initialRouteName: loggedIn ? "SignedOut" : "SignedIn"
+        initialRouteName: jwt ? "SignedIn" : "SignedOut"
       }
     );
 };
