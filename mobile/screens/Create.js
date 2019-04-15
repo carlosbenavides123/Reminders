@@ -60,11 +60,8 @@ class Create extends Component {
             time: "Morning",
             text: "",
             modalVisible: false,
-<<<<<<< Updated upstream
-=======
             jwt: '',
             android_id: ''
->>>>>>> Stashed changes
         };
     }
 
