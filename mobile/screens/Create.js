@@ -51,7 +51,6 @@ RkTheme.setType('RkCard', 'lol', {
 class Create extends Component {
     constructor(props) {
         super(props)
-
         this.state = {
             isDateVisible: false,
             isTimeVisible: false,
@@ -61,11 +60,11 @@ class Create extends Component {
             time: "Morning",
             text: "",
             modalVisible: false,
-            jwt: '',
-            android_id: ''
+            jwt: this.props.jwt,
+            android_id: this.props.fcm
         };
-        this.loadJWT = deviceStorage.loadJWT.bind(this);
-        this.loadJWT();
+        console.log(this.state.jwt);
+        console.log(this.state.android_id);
     }
 
     _showDatePicker = () => this.setState({ isDateVisible: true });
@@ -106,7 +105,6 @@ class Create extends Component {
         var strTime = hours + ':' + minutes + ' ' + ampm;
 
         this.state.label_time = strTime;
-        console.log(this.state)
         this._hideTimePicker();
     };
     
@@ -148,8 +146,6 @@ class Create extends Component {
     submit = () => {
         this.setState({ modalVisible: true })
         var deviceId = DeviceInfo.getUniqueID();
-        console.log(deviceId)
-        console.log(this.state.jwt);
         this.setState({ send: true })
     };
 
@@ -158,9 +154,10 @@ class Create extends Component {
         var data = {
             "name": this.state.text,
             "date": this.state.day,
-            "time": this.state.time
+            "time": this.state.time,
+            "jwt": this.state.jwt,
+            "android_id": this.state.android_id
         }
-        console.log(data);
 
         axios.post(`http://104.248.184.147:8000/api/reminder/reminder/`, data, {
             headers: { 'Authorization': 'Token ' + this.state.jwt }

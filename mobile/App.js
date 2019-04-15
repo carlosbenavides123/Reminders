@@ -42,12 +42,10 @@ firebase.messaging().getToken()
   .then(fcmToken => {
     if (fcmToken) {
       // user has a device token
-      console.log("MADE IT HERE")
       console.log(fcmToken)
     } else {
       // user doesn't have a device token yet
       console.log("NO")
-
     } 
   });
 
@@ -101,8 +99,6 @@ class App extends React.Component {
 
     this.messageListener = firebase.messaging().onMessage((message) => {
         // Process your message as required
-        console.log("##########################################")
-
         console.log(this.messageListener)
       });
 
@@ -112,7 +108,6 @@ class App extends React.Component {
   }
 
   componentWillUnmount() {
-    console.log("##########################################")
     this.notificationDisplayedListener();
     this.notificationListener();
 

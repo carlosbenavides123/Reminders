@@ -6,11 +6,23 @@ import {
     createSwitchNavigator
   } from "react-navigation";
 import Icon from "react-native-vector-icons/Ionicons";
-var jwtDecode = require('jwt-decode');
+
+import firebase from 'react-native-firebase';
+var token = '';
+firebase.messaging().getToken()
+  .then(fcmToken => {
+    if (fcmToken) {
+      token = fcmToken;
+      console.log("got token");
+    } else {
+      // user doesn't have a device token yet
+      console.log("NO")
+    } 
+  });
+
 
 import deviceStorage from './services/deviceStorage';
 jwt = deviceStorage.getJWT();
-// jwt = jwtDecode(jwt)
 
 import Create from "./screens/Create";
 import Saved from "./screens/Saved";
@@ -40,7 +52,7 @@ export const SignedOut = createStackNavigator({
 
 export const SignedIn = createBottomTabNavigator({
     Create:{
-      screen: props => <Create {...{lol:'lol'}}/>,
+      screen: props => <Create {...{fcm: token, jwt: jwt._55}}/>,
       navigationOptions: {
         tabBarLabel: "Create a reminder...",
         tabBarIcon: ({ tintColor }) => (
