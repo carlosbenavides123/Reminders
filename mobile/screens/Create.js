@@ -119,7 +119,7 @@ class Create extends Component {
         if(val == "set_day"){
             this._showDatePicker();
         } else {
-            this.setState({ label_day: val });
+            this.setState({ label_day: val, day: val });
         }
     }
 
@@ -158,6 +158,7 @@ class Create extends Component {
             "date": this.state.day,
             "time": this.state.time
         }
+        console.log(data);
 
         axios.post(`http://104.248.184.147:8000/api/reminder/reminder/`, data, {
             headers: { 'Authorization': 'Token ' + this.state.jwt }
