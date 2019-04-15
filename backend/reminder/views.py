@@ -45,9 +45,9 @@ class ReminderViewSet(viewsets.GenericViewSet,
         print(data['time'])
         time = self.time_swap(data['time'])
         date = self.day_swap(data['date'])
-        scheduler.add_job(self.job_function, 'cron', year=date[0], month=date[1], day=date[2], hour=time[0], minute=time[1], timezone=timezone('US/Pacific'),kwargs={'text':data['name']})
+        scheduler.add_job(self.job_function, 'cron', year=date[0], month=date[1], day=date[2], hour=time[0], minute=time[1], timezone=timezone('US/Pacific'),kwargs={'text':data['name'], 'android_id':data['android_id']})
 
-    def job_function(self, text):
+    def job_function(self, text, android_id):
         apikey = "key=AAAAKtQGGKU:APA91bHgA0AjGOwTIborASxPY_FOES0S33sR0dv3JNpfRdi6YKu58O485XEIoL3Ibrgx7MUjYWtZFub2cxa-tlv9N8M8KJv-IewF4fzNAGAY8WX5tcpfbX5QOBOUlKHObb38qvjuMRah"
         headers = {
             "content-type": "application/json", 
@@ -55,7 +55,7 @@ class ReminderViewSet(viewsets.GenericViewSet,
        }
 
         payload = {  
-                    "to": "cDGl0w_Qv9k:APA91bH5XxTOSc2Sb1w4AJ54e6yWKF4SMTHJSU3i_yG_xZ3rbI_xjSxDYkknBZcqsaCWCaObaqmRBlZmClEn7VeE0XH4bIaZnQx8RRuSKN22A_thY4iV8dY8s5VtJNV6mfgwbQ6-zw4K",
+                    "to": android_id,
                     "priority": "high",
                     "notification" : {
                         "body": "Reminder!",
@@ -63,7 +63,6 @@ class ReminderViewSet(viewsets.GenericViewSet,
                         "click_action":"FCM_PLUGIN_ACTIVITY"
                     }
                 }
-
         r = requests.post('https://fcm.googleapis.com/fcm/send', data=json.dumps(payload), headers=headers)
 
     def perform_update(self, serializer):
@@ -82,11 +81,11 @@ class ReminderViewSet(viewsets.GenericViewSet,
 
     def day_swap(self, date):
         if date == "Today":
-            today = datetime.datetime.today()
+            today = datetime.utcnow() - timedelta(hours=8)
             return [today.year, today.month, today.day]
         elif date == "Tomorrow":
-            today = datetime.datetime.today() + datetime.timedelta(days=1)
-            return [today.year, today.month, today.day]
+            tomorrow = datetime.today() + timedelta(days=1)
+            return [tomorrow.year, tomorrow.month, tomorrow.day]
         else:
             return date.split(',')
 
