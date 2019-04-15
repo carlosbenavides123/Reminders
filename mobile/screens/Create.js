@@ -61,7 +61,8 @@ class Create extends Component {
             time: "Morning",
             text: "",
             modalVisible: false,
-            jwt: ''
+            jwt: '',
+            android_id: ''
         };
         this.loadJWT = deviceStorage.loadJWT.bind(this);
         this.loadJWT();
@@ -96,6 +97,8 @@ class Create extends Component {
         var minutes = date.getMinutes();
         var ampm = hours >= 12 ? 'PM' : 'AM';
 
+        this.state.time = hours+":"+minutes
+
         hours = hours % 12;
         hours = hours ? hours : 12;
         minutes = minutes < 10 ? '0' + minutes : minutes;
@@ -103,8 +106,7 @@ class Create extends Component {
         var strTime = hours + ':' + minutes + ' ' + ampm;
 
         this.state.label_time = strTime;
-        this.state.time = hours+":"+minutes
-
+        console.log(this.state)
         this._hideTimePicker();
     };
     
