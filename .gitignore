@@ -35,3 +35,4 @@ typings/
 
 __pycache__/
 .env
+.jks
