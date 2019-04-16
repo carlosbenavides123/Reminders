@@ -15,6 +15,7 @@ import { yes } from './router';
 import { isSignedIn } from "./auth";
 import { AsyncStorage } from 'react-native';
 import deviceStorage from './services/deviceStorage.js';
+import SplashScreen from 'react-native-splash-screen';
 
 // Current main application
 AppRegistry.registerComponent('mobile', () => bootstrap);
@@ -71,6 +72,7 @@ class App extends React.Component {
 
 
   componentDidMount() {
+    SplashScreen.hide()
     this.notificationOpenedListener = firebase.notifications().onNotificationOpened((notificationOpen) => {
       // Get the action triggered by the notification being opened
       const action = notificationOpen.action;
