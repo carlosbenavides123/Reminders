@@ -1,4 +1,4 @@
-package com.mobile; // make sure this is your package name
+package com.reminders.mobile; // make sure this is your package name
 
 import android.content.Intent;
 import android.os.Bundle;

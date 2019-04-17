@@ -24,8 +24,11 @@ export default class SignIn extends Component{
     this.state = {
         email: "",
         password: "",
-        token: ""
+        token: "",
+        error: ""
     };
+    this.post_to_db = this.post_to_db.bind(this);
+
 }
 
 post_to_db = () => {
@@ -38,10 +41,12 @@ post_to_db = () => {
   .then(res => {
       console.log(res);
       console.log(res.data.token)
-      deviceStorage.saveItem("id_token", res.data.token);
-      // this.props.navigation.navigate('Create')
+      const { navigate } = this.props.navigation;
+      deviceStorage.saveKey("id_token", res.data.token);
+      navigate('Create')
   })
   .catch( err => {
+    this.setState({error: err})
       console.log(err);
   });
 }
@@ -88,7 +93,9 @@ render(){
                       onPress={ () => this.post_to_db()}
                         />
             </View>
-
+            <Text>
+            {this.state.error && <Text style={{ color: 'red' }}>{this.state.errorMessage}</Text>}
+            </Text>
       </View>
       </View>
     )

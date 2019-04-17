@@ -1,4 +1,4 @@
-package com.mobile;
+package com.reminders.mobile;
 
 import com.facebook.react.ReactActivity;
 import org.devio.rn.splashscreen.SplashScreen; // import this
