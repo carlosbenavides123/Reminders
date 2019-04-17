@@ -24,7 +24,8 @@ import {
     Text,
     StyleSheet,
     ListView,
-    ScrollView
+    ScrollView,
+    Button
 } from "react-native";
 
 
@@ -37,6 +38,7 @@ class Saved extends Component {
             jwt: ''
         }
         this.state.jwt = this.props.jwt;
+        this.logout = this.logout.bind(this);
       }
 
     get_data_from_db = () => {
@@ -71,6 +73,12 @@ class Saved extends Component {
     reset = () => {
 
     };
+
+    logout = () => {
+        const { navigate } = this.props.navigation;
+        jwt = deviceStorage.deleteJWT();
+        navigate('SignIn')
+    }
 
     render() {
         contents = this.state.reminders.map(function (item) {

@@ -1,4 +1,4 @@
-package com.mobile;
+package com.reminders.mobile;
 
 import android.app.Application;
 

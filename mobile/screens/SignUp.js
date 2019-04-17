@@ -19,6 +19,7 @@ import {
 import Icon from 'react-native-vector-icons/Ionicons'
 
 import axios from 'axios';
+import deviceStorage from '../services/deviceStorage';
 
 export default class SignUp extends Component{
   constructor(props) {
@@ -28,6 +29,7 @@ export default class SignUp extends Component{
         password: "",
         password_again: ""
     };
+    this.post_to_db = this.post_to_db.bind(this);
 }
 
 post_to_db = () => {
@@ -46,8 +48,11 @@ post_to_db = () => {
 
   axios.post(`http://104.248.184.147:8000/api/user/create/`, data)
   .then(res => {
+      const { navigate } = this.props.navigation;
+
       console.log(res);
-      this.props.navigation.navigate('Create')
+      deviceStorage.saveKey("id_token", res.data.token);
+      navigate('Create')
   })
   .catch( err => {
       console.log(err);
