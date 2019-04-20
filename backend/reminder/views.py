@@ -87,7 +87,26 @@ class ReminderViewSet(viewsets.GenericViewSet,
             tomorrow = datetime.today() + timedelta(days=1)
             return [tomorrow.year, tomorrow.month, tomorrow.day]
         else:
-            return date.split(',')
+            dic =   {
+                        "January": 1,
+                        "February": 2,
+                        "March": 3,
+                        "April": 4,
+                        "May": 5,
+                        "June": 6,
+                        "July": 7,
+                        "August": 8,
+                        "September": 9,
+                        "October": 10,
+                        "November": 11,
+                        "December": 12
+                    }
+
+            temp = date.split(',')
+            temp2 = temp[1].split(' ')
+            print(temp, temp2)
+            return [2019, dic[temp2[1]], int(temp2[2])]
+
 
 def tick(text):
     print(text + '! The time is: %s' % datetime.now())
