@@ -78,7 +78,7 @@ class Create extends Component {
             "July", "August", "September", "October", "November", "December"];
         const dayNames = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday",
             "Friday", "Saturday"];
-
+        console.log(date);
         // UX
         this.state.label_day = dayNames[date.getDay()] + ", "+ monthNames[date.getMonth()] + " " + date.getDate() 
 
@@ -87,7 +87,7 @@ class Create extends Component {
         var day = date.getUTCDate();
         var year = date.getUTCFullYear();
         this.state.day = year + "/" + month + "/" + day;
-
+        console.log(this.state.day);
         this._hideDatePicker();
       };
 
