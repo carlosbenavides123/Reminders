@@ -41,6 +41,7 @@ class Reminder(models.Model):
     """Reminders to be used for users"""
     name = models.CharField(max_length=255)
     date = models.CharField(max_length=255)
+    time = models.CharField(max_length=255)
     user = models.ForeignKey(
             settings.AUTH_USER_MODEL,
             on_delete=models.CASCADE

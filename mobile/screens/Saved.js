@@ -86,7 +86,7 @@ class Saved extends Component {
               <View key={item.id}>
                 <RkCard kType='lol'>
                     <View rkCardContent style={styles.rkCardFooter}>
-                        <Text>{item.name} {item.date}</Text>
+                        <Text>{item.name} due {item.date} at {item.time}</Text>
                     </View>
                     <View rkCardFooter kType='plz' style={styles.rkCardFooter}>
                             <Icon.Button 
