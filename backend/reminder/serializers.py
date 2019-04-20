@@ -14,15 +14,15 @@ class ReminderSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Reminder
-        fields = ('id', 'name', 'date')
+        fields = ('id', 'name', 'date', 'time')
         read_only_Fields = ('id',)
 
-        def to_internal_value(self, data):
-            values = super().to_internal_value(data)
-            now = datetime.utcnow() - timedelta(hours=7)
-            if values['date'] == "Today":
-                values['date'] = now.strftime("%B") + ", " + now.strftime("%d")
-            elif values['date'] == "Tomorrow":
-                now = now + timedelta(days=1)
-                values['date'] = now.strftime("%B") + ", " + now.strftime("%d")
-            return validated
+    def to_internal_value(self, data):
+        values = super().to_internal_value(data)
+        now = datetime.utcnow() - timedelta(hours=7)
+        if values['date'] == "Today":
+            values['date'] = now.strftime("%B") + ", " + now.strftime("%d")
+        elif values['date'] == "Tomorrow":
+            now = now + timedelta(days=1)
+            values['date'] = now.strftime("%B") + ", " + now.strftime("%d")
+        return values
