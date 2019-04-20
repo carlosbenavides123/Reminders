@@ -150,15 +150,13 @@ class Create extends Component {
     };
 
     post_to_db = () => {
-
         var data = {
             "name": this.state.text,
             "date": this.state.day,
             "time": this.state.time,
-            "jwt": this.state.jwt,
             "android_id": this.state.android_id
         }
-
+        console.log(data);
         axios.post(`http://104.248.184.147:8000/api/reminder/reminder/`, data, {
             headers: { 'Authorization': 'Token ' + this.state.jwt }
         })
